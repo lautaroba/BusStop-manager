@@ -1,5 +1,7 @@
 package Dominio;
 
+import java.util.ArrayList;
+
 public class Bus {
 	
 	private int numero;
@@ -27,12 +29,12 @@ public class Bus {
 		return numero;
 	}
 	
-	public Trayecto getRutas(Gestor g) {
+	public ArrayList<Ruta> getRutas(Gestor g) {
 		
 		if(fin.isEstado())
-			return g.buscarCaminos(inicio, fin);
+			return g.buscarTodasLasRutas(inicio, fin);
 		else
-			return g.buscarCaminos(inicio, auxiliar);
+			return g.buscarTodasLasRutas(inicio, auxiliar);
 	}
 	
 }

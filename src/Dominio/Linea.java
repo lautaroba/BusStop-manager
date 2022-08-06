@@ -34,14 +34,14 @@ public abstract class Linea {
 	/*
 	 Retorna todas las rutas que realiza una linea
 	 */
-	public Trayecto getTrayectoLinea(Gestor g) {
+	public Ruta getTrayectoLinea(Gestor g) {
 		
-		Trayecto aux = new Trayecto();
+		Ruta aux = new Ruta();
 
 		buses.stream()
-			 .map(b -> b.getRutas(g)).forEach(new Consumer<Trayecto>() {
+			 .flatMap(b -> b.getRutas(g).stream()).forEach(new Consumer<Ruta>() {
 				 @Override
-					public void accept(Trayecto t) {
+					public void accept(Ruta t) {
 						aux.addAll(t);
 					}
 			 });

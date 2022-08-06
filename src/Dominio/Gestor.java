@@ -82,7 +82,7 @@ public class Gestor {
 	/*
 	Retorna la distancia total entre 2 paradas
 	*/
-	public Trayecto distanciaEntreDosParadas(List<Parada> p, Parada ini , Parada fin) {
+	public double distanciaEntreDosParadas(List<Parada> p, Parada ini , Parada fin) {
         if(!p.isEmpty()) {
             Parada Actual = p.get(0);
             double suma = 0;
@@ -92,10 +92,10 @@ public class Gestor {
                 }
                 Actual = i;
             }
-            return new Trayecto(ini, fin, suma, p);
+            return suma;
         }
         else {
-            return null;
+            return -1;
         }
     }
 	
@@ -125,45 +125,29 @@ public class Gestor {
 //	}
 	
 	/*
-	Retorna todos los caminos desde p1 a p2 + lista de paradas intermedias en cada ruta
-	Analizar si se puede hacer sobrecargando con el meteodo de abajo q son similares
-	*/
-	public Trayecto buscarCaminos(Parada p1, Parada p2, ArrayList<List<Parada>> p) {
-		
-		ArrayList<List<Parada>> salida = new ArrayList<List<Parada>>();
-		List<Parada> marcados = new ArrayList<Parada>();
-		marcados.add(p1);
-		buscarCaminosAux(p1,p2,marcados,salida);
-		p = salida;
-		
-		Trayecto aux = new Trayecto();
-		
-		aux = salida.stream()
-				.map(e -> this.distanciaEntreDosParadas(e, p1, p2))
-				.collect();
-		return aux;
-	}
-	
-	/*
 	Retorna todos los caminos desde p1 a p2 pero solo difieren sus distancias
 	*/
-	public Trayecto buscarCaminos(Parada p1, Parada p2) {
+	public ArrayList<Ruta> buscarTodasLasRutas(Parada p1, Parada p2) {
 		
 		ArrayList<List<Parada>> salida = new ArrayList<List<Parada>>();
 		List<Parada> marcados = new ArrayList<Parada>();
 		marcados.add(p1);
-		buscarCaminosAux(p1,p2,marcados,salida);
+		buscarRutasAux(p1,p2,marcados,salida);
 		
 		return salida.stream()
-				.map(e -> this.distanciaEntreDosParadas(e, p1, p2))
-				.collect(Collectors.toCollection(Trayecto::new));
+				.map(lp -> new Ruta(p1,p2, this.distanciaEntreDosParadas(lp, p1, p2), lp))
+				.collect(Collectors.toCollection(ArrayList::new));
+		
+//		salida.stream()
+//				.map(e -> this.distanciaEntreDosParadas(e, p1, p2))
+//				.collect(Collectors.toCollection(Trayecto::new));
 		
 	}
 	
 	/*
 	Retorna todas las combinaciones de calles entre 2 paradas , tambien una lista con todas las paradas intermedias
 	*/
-	private void buscarCaminosAux(Parada p1, Parada p2, List<Parada> marcados, List<List<Parada>> todos) {
+	private void buscarRutasAux(Parada p1, Parada p2, List<Parada> marcados, List<List<Parada>> todos) {
 		
 		List<Parada> adyacentes = this.getAdyacentes(p1);
 		List<Parada> copiaMarcados =null;
@@ -177,7 +161,7 @@ public class Gestor {
 			else {
 				if( !copiaMarcados.contains(ady)) {
 					copiaMarcados.add(ady);
-					this.buscarCaminosAux(ady,p2,copiaMarcados,todos);
+					this.buscarRutasAux(ady,p2,copiaMarcados,todos);
 				}
 			}
 		}
@@ -201,22 +185,22 @@ public class Gestor {
 	/*
 	Retorna todos las calles q recorre una linea
 	*/
-	public Trayecto trayectoTotalDeUnaLinea(Linea l) {
+	public Ruta trayectoTotalDeUnaLinea(Linea l) {
 		return l.getTrayectoLinea(this);
 	}
 	
 	/*
 	Trayecto mas corto
 	*/
-	public Trayecto trayectoMasCorto(Parada p1, Parada p2) {
-		
-		Trayecto aux = new Trayecto();
-		Trayecto camino = this.buscarCaminoMasCorto(p1, p2);
-		
-		listaLineas.stream();
-		
-		return aux;
-	}
+//	public Ruta trayectoMasCorto(Parada p1, Parada p2) {
+//		
+//		Ruta aux = new Ruta();
+//		Ruta camino = this.buscarCaminoMasCorto(p1, p2);
+//		
+//		listaLineas.stream();
+//		
+//		return aux;
+//	}
 	
 }
 

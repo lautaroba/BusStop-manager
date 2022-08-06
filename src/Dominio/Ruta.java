@@ -4,7 +4,7 @@ import java.util.*;
 
 
 @SuppressWarnings("serial")
-public class Trayecto extends ArrayList<Calle> {
+public class Ruta extends ArrayList<Calle> {
 	
 //	private Bus bus;
 	
@@ -14,7 +14,7 @@ public class Trayecto extends ArrayList<Calle> {
 	private double tiempo; // en min
 	private double distancia; // en km
 	
-	public Trayecto(Parada i, Parada f, double d, List<Parada> p) {
+	public Ruta(Parada i, Parada f, double d, List<Parada> p) {
 		super();
 		this.distancia = d;
 		this.pInicial = i;
@@ -23,7 +23,7 @@ public class Trayecto extends ArrayList<Calle> {
 		this.tiempo=0; // modificar
 	}
 	
-	public Trayecto() {
+	public Ruta() {
 		super();
 //		this.tiempo = tiempo;
 //		this.pInicial = pInicial;

@@ -71,9 +71,9 @@ public class AppEliminar {
 		
 		//g.agregarIncidente("2022-08-03", "2022-09-26", "Alto accidente asheee", p4);
 		
-		for(Calle h : g.buscarCaminos(p1, p11)) {
-			h.Imprimir();
-		}
+//		for(Calle h : g.buscarCaminos(p1, p11)) {
+//			h.Imprimir();
+//		}
 //		System.out.println("Echo");	
 //		g.buscarCaminoMasCorto(p1, p11).Imprimir();
 		
