@@ -27,5 +27,12 @@ public class Bus {
 		return numero;
 	}
 	
+	public Trayecto getRutas(Gestor g) {
+		
+		if(fin.isEstado())
+			return g.buscarCaminos(inicio, fin);
+		else
+			return g.buscarCaminos(inicio, auxiliar);
+	}
 	
 }

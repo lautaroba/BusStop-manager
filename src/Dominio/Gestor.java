@@ -34,7 +34,6 @@ public class Gestor {
 		//this.listaCaminos.add(new Calle(longitud, p2, p1)); NO SE SI HACERLO IDA Y VUELTA, evaluar
 	}
 	
-	
 	public void agregarIncidente(String i, String f, String s, Parada p) {
 		
 		this.listaIncidentes.add(new Incidente(i, f, s, p));
@@ -47,9 +46,7 @@ public class Gestor {
 				//System.out.println(" la parada es " + j.getNroParada());
 				}
 			}
-			
 			calcularParadas(p);
-		
 		}
 	}
 	
@@ -85,7 +82,7 @@ public class Gestor {
 	/*
 	Retorna la distancia total entre 2 paradas
 	*/
-	public Calle distanciaEntreDosParadas(List<Parada> p, Parada ini , Parada fin) {
+	public Trayecto distanciaEntreDosParadas(List<Parada> p, Parada ini , Parada fin) {
         if(!p.isEmpty()) {
             Parada Actual = p.get(0);
             double suma = 0;
@@ -95,50 +92,71 @@ public class Gestor {
                 }
                 Actual = i;
             }
-            return new Calle(ini, fin, suma);
+            return new Trayecto(ini, fin, suma, p);
         }
         else {
             return null;
         }
     }
 	
+//	/*
+//	Retorna el Calle mas corto de p1 a p2
+//	*/
+//	public Calle buscarCaminoMasCorto(Parada p1, Parada p2) {
+//		
+//		Trayecto aux = new Trayecto();
+//		
+//		ArrayList<List<Parada>> salida = new ArrayList<List<Parada>>();
+//		List<Parada> marcados = new ArrayList<Parada>();
+//		marcados.add(p1);
+//		buscarCaminosAux(p1,p2,marcados,salida);
+//		aux = salida.stream()
+//				.map(e -> this.distanciaEntreDosParadas(e, p1, p2))
+//				.collect(Collectors.toCollection(Trayecto::new));
+//		
+//		aux.sort(new Comparator<Calle>() {
+//			@Override
+//			public int compare(Calle c1, Calle c2) {
+//				return c1.comparaCamino(c2);
+//			}
+//		});
+//		
+//		return aux.get(0);
+//	}
+	
 	/*
-	Retorna el Calle mas corto de p1 a p2
+	Retorna todos los caminos desde p1 a p2 + lista de paradas intermedias en cada ruta
+	Analizar si se puede hacer sobrecargando con el meteodo de abajo q son similares
 	*/
-	public Calle buscarCaminoMasCorto(Parada p1, Parada p2) {
-		
-		Trayecto aux = new Trayecto();
+	public Trayecto buscarCaminos(Parada p1, Parada p2, ArrayList<List<Parada>> p) {
 		
 		ArrayList<List<Parada>> salida = new ArrayList<List<Parada>>();
 		List<Parada> marcados = new ArrayList<Parada>();
 		marcados.add(p1);
 		buscarCaminosAux(p1,p2,marcados,salida);
+		p = salida;
+		
+		Trayecto aux = new Trayecto();
+		
 		aux = salida.stream()
 				.map(e -> this.distanciaEntreDosParadas(e, p1, p2))
-				.collect(Collectors.toCollection(Trayecto::new));
-		
-		aux.sort(new Comparator<Calle>() {
-			@Override
-			public int compare(Calle c1, Calle c2) {
-				return c1.comparaCamino(c2);
-			}
-		});
-		
-		return aux.get(0);
+				.collect();
+		return aux;
 	}
 	
 	/*
 	Retorna todos los caminos desde p1 a p2 pero solo difieren sus distancias
 	*/
-	public ArrayList<Calle> buscarCaminos(Parada p1, Parada p2) {
+	public Trayecto buscarCaminos(Parada p1, Parada p2) {
 		
 		ArrayList<List<Parada>> salida = new ArrayList<List<Parada>>();
 		List<Parada> marcados = new ArrayList<Parada>();
 		marcados.add(p1);
 		buscarCaminosAux(p1,p2,marcados,salida);
+		
 		return salida.stream()
 				.map(e -> this.distanciaEntreDosParadas(e, p1, p2))
-				.collect(Collectors.toCollection(ArrayList::new));
+				.collect(Collectors.toCollection(Trayecto::new));
 		
 	}
 	
@@ -184,26 +202,21 @@ public class Gestor {
 	Retorna todos las calles q recorre una linea
 	*/
 	public Trayecto trayectoTotalDeUnaLinea(Linea l) {
-		return l.getTrayecto(this);
+		return l.getTrayectoLinea(this);
 	}
 	
 	/*
 	Trayecto mas corto
 	*/
-//	public Trayecto trayectoMasCorto(Parada p1, Parada p2) {
-//		
-//		Trayecto aux = new Trayecto();
-//
-//		listaLineas.stream().flatMap(l -> l.getTrayectoMasCorto(this).stream()).forEach(new Consumer<Calle>() {
-//			
-//			@Override
-//			public void accept(Calle c) {
-//				aux.add(c);
-//			}
-//			
-//		});;
-//		return aux;
-//	}
+	public Trayecto trayectoMasCorto(Parada p1, Parada p2) {
+		
+		Trayecto aux = new Trayecto();
+		Trayecto camino = this.buscarCaminoMasCorto(p1, p2);
+		
+		listaLineas.stream();
+		
+		return aux;
+	}
 	
 }
 

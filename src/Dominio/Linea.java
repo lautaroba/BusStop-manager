@@ -2,7 +2,6 @@ package Dominio;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public abstract class Linea {
 	
@@ -10,45 +9,42 @@ public abstract class Linea {
 	protected String color;  // Posible modificación  en un futuro
 	protected String nombre;
 	protected int capacidad;
+	protected int velocidad;
 	
 	ArrayList<Bus> getBuses() {
 		return buses;
 	}
+	
 	public void setBuses(Bus bus) {
 		this.buses.add(bus);
 	}
+	
 	public String getColor() {
 		return color;
 	}
+	
 	public int getCapacidad() {
 		return capacidad;
+	}
+	
+	public int getVelocidad() {
+		return velocidad;
 	}
 	
 	/*
 	 Retorna todas las rutas que realiza una linea
 	 */
-	public Trayecto getTrayecto(Gestor g) {
+	public Trayecto getTrayectoLinea(Gestor g) {
 		
 		Trayecto aux = new Trayecto();
 
-		this.getBuses().stream()
-				.map(b -> (b.getFin().isEstado()) ? g.buscarCaminos(b.getInicio(), b.getFin()): g.buscarCaminos(b.getInicio(), b.getFin()))
-				.flatMap(c -> c.stream()).forEach(new Consumer<Calle>() {
-					@Override
-					public void accept(Calle c) {
-						aux.add(c);
+		buses.stream()
+			 .map(b -> b.getRutas(g)).forEach(new Consumer<Trayecto>() {
+				 @Override
+					public void accept(Trayecto t) {
+						aux.addAll(t);
 					}
-				});
+			 });
 		return aux;
 	}
-	
-	public Trayecto getTrayectoMasCorto(Gestor g, Parada p1, Parada p2) {
-		// si no existe debe tirar excepcion
-		return this.getBuses().stream()
-				.map(b -> (b.getFin().isEstado()) ? g.buscarCaminoMasCorto(p1, p2): g.buscarCaminoMasCorto(b.getInicio(), b.getFin()))
-				.collect(Collectors.toCollection(Trayecto::new));
-		
-	}
-	
-	
 }

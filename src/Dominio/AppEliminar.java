@@ -30,8 +30,8 @@ public class AppEliminar {
 		g.agregarParada(p10);
 		g.agregarParada(p11);
 		
-		Linea sup = new Superior("Linea 1", "Azul", 100, TipoServicio.AirConditioner );
-		Linea eco = new Economica("Linea 1", "Azul", 100, 0.4);
+		Linea sup = new Superior("Linea 1", "Azul", 100, TipoServicio.AirConditioner, 60);
+		Linea eco = new Economica("Linea 1", "Azul", 100, 0.4, 40);
 		
 		g.agregarLinea(sup);
 		g.agregarLinea(eco);
@@ -70,17 +70,17 @@ public class AppEliminar {
 		eco.setBuses(b5);
 		
 		//g.agregarIncidente("2022-08-03", "2022-09-26", "Alto accidente asheee", p4);
-//		
-//		for(Calle h : g.buscarCaminos(p1, p11)) {
-//			h.Imprimir();
-//		}
+		
+		for(Calle h : g.buscarCaminos(p1, p11)) {
+			h.Imprimir();
+		}
 //		System.out.println("Echo");	
 //		g.buscarCaminoMasCorto(p1, p11).Imprimir();
 		
-		for(Calle h : g.trayectoTotalDeUnaLinea(eco)) {
-		h.Imprimir();
-		}
-		System.out.println("            ");
+//		for(Calle h : g.trayectoTotalDeUnaLinea(eco)) {
+//		h.Imprimir();
+//		}
+//		System.out.println("            ");
 //		for(Calle h : g.trayectoMasCorto()) {
 //			h.Imprimir();
 //		}

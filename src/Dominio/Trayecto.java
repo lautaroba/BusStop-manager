@@ -5,93 +5,58 @@ import java.util.*;
 
 @SuppressWarnings("serial")
 public class Trayecto extends ArrayList<Calle> {
-
-	private double tiempo; // en min
-	private final int id;
-	private static int contador;
+	
+//	private Bus bus;
+	
 	private Parada pInicial;
 	private Parada pFinal;
+	private ArrayList<Parada> listaParadas;
+	private double tiempo; // en min
 	private double distancia; // en km
-	private int cantidadParadas; // contando inicial y final
-
-	public Trayecto(double tiempo, double distancia, Parada pInicial, Parada pFinal) {
+	
+	public Trayecto(Parada i, Parada f, double d, List<Parada> p) {
 		super();
-		this.tiempo = tiempo;
-		this.id = contador;
-		this.pInicial = pInicial;
-		this.pFinal = pFinal;
-		this.distancia = distancia;
-		contador++;
-
+		this.distancia = d;
+		this.pInicial = i;
+		this.pFinal = f;
+		this.listaParadas = (ArrayList<Parada>) p;
+		this.tiempo=0; // modificar
 	}
-	// preguntar
+	
 	public Trayecto() {
-		this.id=contador;
-		contador++;
-	}
-	// cuidado cn los valores, agregar meteodos de calculo de duracion y distancia
-	public Trayecto(Collection<Calle> aux) {
 		super();
-		this.addAll(aux);
-		this.id = contador;
-		contador++;
+//		this.tiempo = tiempo;
+//		this.pInicial = pInicial;
+//		this.pFinal = pFinal;
+//		this.distancia = distancia;
 	}
 	
-	public String descripcion() {
-		return "TrayectoID: " + id + "\nTiempo: " + tiempo + "\nParada inicial: " + pInicial
-				+ "\nParada final: " + pFinal + "\nDistancia: " + distancia + "\nCantidad de paradas: " + cantidadParadas;
-	}
-	
-	public void agregarCamino(Calle c) {
-		if (contains(c)) 
-			return;
-		else 
-			add(c);
+	public void Imprimir() {
+		System.out.println("Tiempo: " + tiempo + " Parada inicial: " + pInicial.getNumero() + " Parada final: " + pFinal.getNumero() + " Distancia: " + distancia);
+		System.out.println("Paradas Intermedias: \n");
+		
+		for(Parada p : listaParadas) 
+			System.out.println(" " + p.getNumero());
 	}
 	
 	public int getCantidadParadas(){
-		return cantidadParadas;
-	}
-	
-	public int setCantidadParadas() {
-
-		return cantidadParadas;
+		return listaParadas.size();
 	}
 
 	public double getTiempo() {
 		return tiempo;
 	}
 
-	public void setTiempo(double tiempo) {
-		this.tiempo = tiempo;
-	}
-
-	public Parada getpInicial() {
+	public Parada getPInicial() {
 		return pInicial;
 	}
 
-	public void setpInicial(Parada pInicial) {
-		this.pInicial = pInicial;
-	}
-
-	public Parada getpFinal() {
+	public Parada getPFinal() {
 		return pFinal;
-	}
-
-	public void setpFinal(Parada pFinal) {
-		this.pFinal = pFinal;
 	}
 
 	public double getDistancia() {
 		return distancia;
-	}
-
-	public void setDistancia(double distancia) {
-		this.distancia = distancia;
-	}
-
-	public int getId() {
-		return id;
 	}
 
 }
