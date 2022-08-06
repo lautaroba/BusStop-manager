@@ -1,5 +1,5 @@
-package Sistema;
+package Aplicacion;
 
 public class Bus {
-	
+
 }
