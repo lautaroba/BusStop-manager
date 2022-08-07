@@ -32,9 +32,11 @@ public class Bus {
 	public ArrayList<Ruta> getRutas(Gestor g) {
 		
 		if(fin.isEstado())
-			return g.buscarTodasLasRutas(inicio, fin);
+			return g.buscarTodasLasRutasDeUnBus(inicio, fin, this);
 		else
-			return g.buscarTodasLasRutas(inicio, auxiliar);
+			return g.buscarTodasLasRutasDeUnBus(inicio, auxiliar, this);
 	}
+	
+	
 	
 }

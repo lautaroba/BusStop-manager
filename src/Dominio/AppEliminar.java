@@ -1,5 +1,7 @@
 package Dominio;
 
+import java.util.List;
+
 public class AppEliminar {
 	
 	public static void main(String[] args) {
@@ -30,8 +32,8 @@ public class AppEliminar {
 		g.agregarParada(p10);
 		g.agregarParada(p11);
 		
-		Linea sup = new Superior("Linea 1", "Azul", 100, TipoServicio.AirConditioner, 60);
-		Linea eco = new Economica("Linea 1", "Azul", 100, 0.4, 40);
+		Linea sup = new Superior("Linea 1", "Azul", 100, TipoServicio.AirConditioner, 1);
+		Linea eco = new Economica("Linea 1", "Azul", 100, 0.4, 4);
 		
 		g.agregarLinea(sup);
 		g.agregarLinea(eco);
@@ -55,19 +57,53 @@ public class AppEliminar {
 		g.agregarCamino(p10,p9,4);
 		g.agregarCamino(p11,p1,35);
 		
-		Bus b1 = new Bus(p1, p11, 1);
-		Bus b2 = new Bus(p7, p1, 4);
+		Bus b1 = new Bus(p2, p4, 1);
+		Bus b2 = new Bus(p1, p2, 2);
 		
 		sup.setBuses(b1);
 		sup.setBuses(b2);
 		
-		Bus b3 = new Bus(p1, p4, 1);
+		Bus b3 = new Bus(p1, p4, 4);
 		Bus b4 = new Bus(p4, p8, 2);
 		Bus b5 = new Bus(p2, p10, 3);
+		Bus b6 = new Bus(p1, p7, 6);
+		Bus b7 = new Bus(p7, p8, 5);
+		
 		
 		eco.setBuses(b3);
 		eco.setBuses(b4);
 		eco.setBuses(b5);
+		eco.setBuses(b6);
+		eco.setBuses(b7);
+		
+		for(List<Ruta> r : g.todasLasRutasEntreDosParadas(p1, p4)){
+			
+			System.out.println(" --------------------------------- ");
+			
+			for(Ruta r2 : r)
+				r2.Imprimir();
+			}
+		
+		System.out.println("----------------------------------");
+		
+		for(Ruta r : g.rutaMasCorta(p1, p4))
+			r.Imprimir();
+		
+		System.out.println("----------------------------------");
+		
+		for(Ruta r : g.rutaMasRapida(p1, p4))
+			r.Imprimir();
+		
+		System.out.println("----------------------------------");
+		
+		for(Ruta r : g.rutaMasBarata(p1, p4))
+			r.Imprimir();
+		
+//		for(Ruta r : g.trayectoTotalDeUnaLinea(eco))
+//			r.Imprimir();
+
+//		for(Ruta r : g.RutaMasCorta(p1, p8))
+//			r.Imprimir();
 		
 		//g.agregarIncidente("2022-08-03", "2022-09-26", "Alto accidente asheee", p4);
 		

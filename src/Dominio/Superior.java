@@ -19,4 +19,13 @@ public class Superior extends Linea{
 		return tipo;
 	}
 	
+	public double getPrecio() {
+		if (tipo ==TipoServicio.Wifi)
+			return tarifa * 1.15;
+		else if(tipo == TipoServicio.AirConditioner)
+			return tarifa * 1.15;
+		else
+			return -1;
+	}
+	
 }

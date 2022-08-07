@@ -2,41 +2,52 @@ package Dominio;
 
 import java.util.*;
 
-
-@SuppressWarnings("serial")
-public class Ruta extends ArrayList<Calle> {
+public class Ruta {
 	
-//	private Bus bus;
-	
+	private Bus bus;
+	private double precio;
 	private Parada pInicial;
 	private Parada pFinal;
 	private ArrayList<Parada> listaParadas;
 	private double tiempo; // en min
 	private double distancia; // en km
-	
+
+	public Ruta(Parada i, Parada f, double d, List<Parada> p, double t, double pr, Bus b) {
+		super();
+		this.distancia = d;
+		this.pInicial = i;
+		this.pFinal = f;
+		this.listaParadas = (ArrayList<Parada>) p;
+		this.tiempo=t; 
+		this.bus = b;
+		this.precio = pr;
+		// modificar
+	}
+	// eseria un camino
 	public Ruta(Parada i, Parada f, double d, List<Parada> p) {
 		super();
 		this.distancia = d;
 		this.pInicial = i;
 		this.pFinal = f;
 		this.listaParadas = (ArrayList<Parada>) p;
-		this.tiempo=0; // modificar
-	}
-	
-	public Ruta() {
-		super();
-//		this.tiempo = tiempo;
-//		this.pInicial = pInicial;
-//		this.pFinal = pFinal;
-//		this.distancia = distancia;
+		this.tiempo=0; 
+		// modificar
 	}
 	
 	public void Imprimir() {
-		System.out.println("Tiempo: " + tiempo + " Parada inicial: " + pInicial.getNumero() + " Parada final: " + pFinal.getNumero() + " Distancia: " + distancia);
-		System.out.println("Paradas Intermedias: \n");
+		System.out.println("Parada inicial: " + pInicial.getNumero()
+				+ " Parada final: " + pFinal.getNumero() 
+				+ " Bus: " + bus.GetNumero()
+				+ " Tiempo: " + tiempo 
+				+ " Distancia: " + distancia 
+				+ " Precio: " + precio
+				);
+		System.out.println("Paradas Intermedias:");
 		
 		for(Parada p : listaParadas) 
-			System.out.println(" " + p.getNumero());
+			System.out.print(" " + p.getNumero());
+		
+		System.out.println("");
 	}
 	
 	public int getCantidadParadas(){
@@ -58,5 +69,41 @@ public class Ruta extends ArrayList<Calle> {
 	public double getDistancia() {
 		return distancia;
 	}
-
+	
+	public ArrayList<Parada> getParadas(){
+		return listaParadas;
+	}
+	
+	public Bus getBus() {
+		return bus;
+	}
+	
+	public double getPrecio(){
+		return precio;
+	}
+	
+	public boolean similar(Ruta r) {
+		if(r.getPInicial().equals(this.pInicial) && r.getPFinal().equals(this.pFinal))
+			return true;
+		else
+			return false;
+	}
+	
+//	public void addParadas(ArrayList<Parada> p) {
+//		
+//		listaParadas.addAll(p);
+//		
+//		
+//		
+//	}
+	
+//	public Ruta menor(Ruta r) {
+//		if(this.similar(r)) {
+//			return (r.getDistancia() > this.distancia)? this: r;
+//		}
+//		else
+//			return null;
+//		
+//	}
+	
 }

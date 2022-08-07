@@ -10,6 +10,7 @@ public abstract class Linea {
 	protected String nombre;
 	protected int capacidad;
 	protected int velocidad;
+	protected final double tarifa = 10;
 	
 	ArrayList<Bus> getBuses() {
 		return buses;
@@ -31,20 +32,24 @@ public abstract class Linea {
 		return velocidad;
 	}
 	
+	public double getPrecio() {
+		return tarifa;
+	}
 	/*
-	 Retorna todas las rutas que realiza una linea
-	 */
-	public Ruta getTrayectoLinea(Gestor g) {
+	Retorna todas las rutas que realiza una linea
+	*/
+	public ArrayList<Ruta> getTrayectoLinea(Gestor g) {
 		
-		Ruta aux = new Ruta();
-
+		ArrayList<Ruta> aux = new ArrayList<Ruta>();
+		
 		buses.stream()
-			 .flatMap(b -> b.getRutas(g).stream()).forEach(new Consumer<Ruta>() {
+			 .map(b -> b.getRutas(g)).forEach(new Consumer<ArrayList<Ruta>>() {
 				 @Override
-					public void accept(Ruta t) {
-						aux.addAll(t);
-					}
+				public void accept(ArrayList<Ruta> r) {
+					aux.addAll(r);
+				}
 			 });
 		return aux;
 	}
+	
 }

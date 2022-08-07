@@ -10,10 +10,14 @@ public class Economica extends Linea{
 	public Economica(String n, String c, int cantidad, double p, int v) {
 		this.buses = new ArrayList<Bus>();
 		this.nombre = n;
-		this.capacidad = cantidad;
+		this.capacidad =  (int) (cantidad * (1+p));
 		this.color = c;
 		this.porcentaje = p;
 		this.velocidad = v;
+	}
+	
+	public double getPrecio() {
+		return (this.tarifa * 1.02);
 	}
 	
 }

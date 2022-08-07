@@ -1,9 +1,7 @@
 package Dominio;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -11,14 +9,19 @@ public class Gestor {
 	
 	private ArrayList<Linea> listaLineas;
 	private ArrayList<Calle> listaCaminos;  // aristas
-	private ArrayList<Parada> listaParadas;  // nodos
+	private ArrayList<Parada> listaParadas;  // nodos  estas serian esquinas
 	private ArrayList<Incidente> listaIncidentes;
+	
+	private ArrayList<Ruta> aristas;  
+	private ArrayList<Parada> nodos;  // estas serian paradas
 	
 	public Gestor() {
 		this.listaLineas = new ArrayList<Linea>();
 		this.listaCaminos = new ArrayList<Calle>();
 		this.listaParadas = new ArrayList<Parada>();
 		this.listaIncidentes = new ArrayList<Incidente>();
+		this.aristas = new ArrayList<Ruta>();
+		this.nodos = new ArrayList<Parada>();
 	}
 	
 	public void agregarLinea(Linea l) {
@@ -31,7 +34,6 @@ public class Gestor {
 	
 	public void agregarCamino(Parada p1, Parada p2, double longitud) {
 		this.listaCaminos.add(new Calle(p1, p2, longitud));
-		//this.listaCaminos.add(new Calle(longitud, p2, p1)); NO SE SI HACERLO IDA Y VUELTA, evaluar
 	}
 	
 	public void agregarIncidente(String i, String f, String s, Parada p) {
@@ -41,13 +43,26 @@ public class Gestor {
 		if(LocalDate.parse(i).equals(java.time.LocalDate.now())) {
 			
 			for(Parada j: listaParadas ) {
-			if( j.equals(p)){
+			if( j.equals(p))
 				j.setEstado(false);
-				//System.out.println(" la parada es " + j.getNroParada());
-				}
 			}
 			calcularParadas(p);
 		}
+	}
+	
+	/*
+	Propone parada nueva despues de un incidente
+	*/
+	private void calcularParadas(Parada p) {
+		
+		Parada aux = this.getAdyacentes(p).stream().min(Comparator.comparingDouble(e -> this.getDistancia(p, e))).get();
+		
+		listaLineas.stream().flatMap(l -> l.getBuses().stream()).forEach(new Consumer<Bus>() {
+			@Override
+			public void accept(Bus b) {
+				b.setAuxilia(aux);
+			}
+		});
 	}
 	
 	public void terminarIncidente(Incidente i) {
@@ -99,55 +114,26 @@ public class Gestor {
         }
     }
 	
-//	/*
-//	Retorna el Calle mas corto de p1 a p2
-//	*/
-//	public Calle buscarCaminoMasCorto(Parada p1, Parada p2) {
-//		
-//		Trayecto aux = new Trayecto();
-//		
-//		ArrayList<List<Parada>> salida = new ArrayList<List<Parada>>();
-//		List<Parada> marcados = new ArrayList<Parada>();
-//		marcados.add(p1);
-//		buscarCaminosAux(p1,p2,marcados,salida);
-//		aux = salida.stream()
-//				.map(e -> this.distanciaEntreDosParadas(e, p1, p2))
-//				.collect(Collectors.toCollection(Trayecto::new));
-//		
-//		aux.sort(new Comparator<Calle>() {
-//			@Override
-//			public int compare(Calle c1, Calle c2) {
-//				return c1.comparaCamino(c2);
-//			}
-//		});
-//		
-//		return aux.get(0);
-//	}
-	
 	/*
 	Retorna todos los caminos desde p1 a p2 pero solo difieren sus distancias
+	distancia entre 2 paradas, hacerlo en ruta mas lindo
 	*/
-	public ArrayList<Ruta> buscarTodasLasRutas(Parada p1, Parada p2) {
+	public ArrayList<Ruta> buscarTodasLosCaminos(Parada p1, Parada p2) {
 		
 		ArrayList<List<Parada>> salida = new ArrayList<List<Parada>>();
 		List<Parada> marcados = new ArrayList<Parada>();
 		marcados.add(p1);
-		buscarRutasAux(p1,p2,marcados,salida);
+		buscarCaminosAux(p1,p2,marcados,salida);
 		
 		return salida.stream()
 				.map(lp -> new Ruta(p1,p2, this.distanciaEntreDosParadas(lp, p1, p2), lp))
-				.collect(Collectors.toCollection(ArrayList::new));
-		
-//		salida.stream()
-//				.map(e -> this.distanciaEntreDosParadas(e, p1, p2))
-//				.collect(Collectors.toCollection(Trayecto::new));
-		
+				.collect(Collectors.toCollection(ArrayList::new));		
 	}
 	
 	/*
 	Retorna todas las combinaciones de calles entre 2 paradas , tambien una lista con todas las paradas intermedias
 	*/
-	private void buscarRutasAux(Parada p1, Parada p2, List<Parada> marcados, List<List<Parada>> todos) {
+	private void buscarCaminosAux(Parada p1, Parada p2, List<Parada> marcados, List<List<Parada>> todos) {
 		
 		List<Parada> adyacentes = this.getAdyacentes(p1);
 		List<Parada> copiaMarcados =null;
@@ -159,48 +145,173 @@ public class Gestor {
 				todos.add(new ArrayList<Parada>(copiaMarcados));
 			}
 			else {
-				if( !copiaMarcados.contains(ady)) {
+				if(!copiaMarcados.contains(ady)) {
 					copiaMarcados.add(ady);
-					this.buscarRutasAux(ady,p2,copiaMarcados,todos);
+					this.buscarCaminosAux(ady,p2,copiaMarcados,todos);
 				}
 			}
 		}
 	}
 	
 	/*
-	Propone parada nueva
+	Retorna todas las rutas desde p1 a p2 asociadas a 1 bus
+	distancia entre 2 paradas, hacerlo en ruta mas lindo
 	*/
-	public void calcularParadas(Parada p) {
+	public ArrayList<Ruta> buscarTodasLasRutasDeUnBus(Parada p1, Parada p2, Bus b) {
 		
-		Parada aux = this.getAdyacentes(p).stream().min(Comparator.comparingDouble(e -> this.getDistancia(p, e))).get();
+		ArrayList<List<Parada>> salida = new ArrayList<List<Parada>>();
+		List<Parada> marcados = new ArrayList<Parada>();
+		marcados.add(p1);
+		buscarCaminosAux(p1,p2,marcados,salida);
 		
-		listaLineas.stream().flatMap(l -> l.getBuses().stream()).forEach(new Consumer<Bus>() {
-			@Override
-			public void accept(Bus b) {
-				b.setAuxilia(aux);
-			}
-		});
+		Linea aux = listaLineas.stream().filter(e -> e.getBuses().contains(b)).findAny().get();
+		
+		return salida.stream()
+				.map(lp -> new Ruta(p1,p2, this.distanciaEntreDosParadas(lp, p1, p2), 
+						lp, this.distanciaEntreDosParadas(lp, p1, p2)/aux.getVelocidad(), 
+						this.distanciaEntreDosParadas(lp, p1, p2) * aux.getPrecio(),b))
+				.collect(Collectors.toCollection(ArrayList::new));
 	}
 	
 	/*
-	Retorna todos las calles q recorre una linea
+	Retorna todos las rutas q recorre una linea
 	*/
-	public Ruta trayectoTotalDeUnaLinea(Linea l) {
+	public ArrayList<Ruta> trayectoTotalDeUnaLinea(Linea l) {
 		return l.getTrayectoLinea(this);
 	}
 	
 	/*
-	Trayecto mas corto
+	Retorna todas las rutas que existen sin importar la linea, entre 2 paradas
 	*/
-//	public Ruta trayectoMasCorto(Parada p1, Parada p2) {
-//		
-//		Ruta aux = new Ruta();
-//		Ruta camino = this.buscarCaminoMasCorto(p1, p2);
-//		
-//		listaLineas.stream();
-//		
-//		return aux;
-//	}
+	public ArrayList<List<Ruta>> todasLasRutasEntreDosParadas(Parada p1, Parada p2) {
+		
+		listaLineas.stream()
+					.map(l -> l.getTrayectoLinea(this))
+					.forEach(new Consumer<ArrayList<Ruta>>() {
+						 public void accept(ArrayList<Ruta> r) {
+							aristas.addAll(r);
+					 		for(Ruta c: r) {
+					 			if(!nodos.contains(c.getPInicial()))
+					 				nodos.add(c.getPInicial());
+					 			if(!nodos.contains(c.getPFinal()))
+					 				nodos.add(c.getPFinal());
+					 		}
+						}
+					});
+		
+		ArrayList<List<Ruta>> resultado = new ArrayList<List<Ruta>>();
+		List<Ruta> marcados = new ArrayList<Ruta>();
+//		marcados.add(p1);
+		shortestPathAux(p1,p2,marcados,resultado);
+		
+		return resultado;
+		
+//		for(Ruta c : aristas) {
+//			c.Imprimir();
+//		}
+//		System.out.println("nodos = " + nodos.size() + " aristas = " + aristas.size());
+	}
+	/*
+	Retorna los adyacentes segun rutas
+	*/	
+	public ArrayList<Ruta> siguienteParada(Parada p){
+		return aristas.stream()
+						.filter(e -> e.getPInicial().equals(p))
+						.collect(Collectors.toCollection(ArrayList::new));
+	}
+	
+	private void shortestPathAux(Parada p1, Parada p2, List<Ruta> marcados, List<List<Ruta>> todas) {
+		
+		List<Ruta> adyacentes = this.siguienteParada(p1);
+		List<Ruta> copiaMarcados =null;
+		
+		for(Ruta ady: adyacentes){
+			copiaMarcados = marcados.stream().collect(Collectors.toList());
+			
+			if(ady.getPFinal().equals(p2)) {
+				copiaMarcados.add(ady);
+				todas.add(new ArrayList<Ruta>(copiaMarcados));
+			}
+			else {
+				if(!copiaMarcados.contains(ady)) {
+					copiaMarcados.add(ady);
+					this.shortestPathAux(ady.getPFinal(),p2,copiaMarcados,todas);
+				}
+			}
+		}
+	}
+	
+	private double total(List<Ruta> a2) {
+		double suma=0.0;
+		for(Ruta a : a2) {
+			suma+= a.getDistancia();
+		}
+		return suma;
+	}
+	
+	public ArrayList<Ruta> rutaMasCorta(Parada p1, Parada p2){
+		
+		double suma=0;
+		double bandera=99999;
+		ArrayList<Ruta> aux2 = new ArrayList<Ruta>();
+		
+		for(List<Ruta> a: this.todasLasRutasEntreDosParadas(p1, p2)) {
+			
+			for(Ruta r : a) 
+				suma+= r.getDistancia();
+			
+			if(suma < bandera) {
+				aux2 = (ArrayList<Ruta>) a;
+				bandera=suma;
+			}
+			suma=0;
+		}
+		return aux2;
+	}
+	
+	public ArrayList<Ruta> rutaMasRapida(Parada p1, Parada p2){
+		
+		double suma=0;
+		double bandera=99999;
+		ArrayList<Ruta> aux2 = new ArrayList<Ruta>();
+		
+		for(List<Ruta> a: this.todasLasRutasEntreDosParadas(p1, p2)) {
+			
+			for(Ruta r : a) 
+				suma += r.getTiempo();
+
+			if(suma < bandera) {
+				aux2 = (ArrayList<Ruta>) a;
+				bandera=suma;
+			}
+			
+			suma=0;
+			
+		}
+		return aux2;
+	}
+	
+	public ArrayList<Ruta> rutaMasBarata(Parada p1, Parada p2){
+		
+		double suma=0;
+		double bandera=99999;
+		ArrayList<Ruta> aux2 = new ArrayList<Ruta>();
+		
+		for(List<Ruta> a: this.todasLasRutasEntreDosParadas(p1, p2)) {
+			
+			for(Ruta r : a) 
+				suma += r.getPrecio();
+
+			if(suma < bandera) {
+				aux2 = (ArrayList<Ruta>) a;
+				bandera=suma;
+			}
+			
+			suma=0;
+			
+		}
+		return aux2;
+	}
 	
 }
 
