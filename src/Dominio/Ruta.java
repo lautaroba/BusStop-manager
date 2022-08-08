@@ -6,30 +6,30 @@ public class Ruta {
 	
 	private Bus bus;
 	private double precio;
-	private Parada pInicial;
-	private Parada pFinal;
-	private ArrayList<Parada> listaParadas;
+	private Nodo pInicial;
+	private Nodo pFinal;
+	private ArrayList<Nodo> listaParadas;
 	private double tiempo; // en min
 	private double distancia; // en km
 
-	public Ruta(Parada i, Parada f, double d, List<Parada> p, double t, double pr, Bus b) {
+	public Ruta(Nodo i, Nodo f, double d, List<Nodo> p, double t, double pr, Bus b) {
 		super();
 		this.distancia = d;
 		this.pInicial = i;
 		this.pFinal = f;
-		this.listaParadas = (ArrayList<Parada>) p;
+		this.listaParadas = (ArrayList<Nodo>) p;
 		this.tiempo=t; 
 		this.bus = b;
 		this.precio = pr;
 		// modificar
 	}
 	// eseria un camino
-	public Ruta(Parada i, Parada f, double d, List<Parada> p) {
+	public Ruta(Nodo i, Nodo f, double d, List<Nodo> p) {
 		super();
 		this.distancia = d;
 		this.pInicial = i;
 		this.pFinal = f;
-		this.listaParadas = (ArrayList<Parada>) p;
+		this.listaParadas = (ArrayList<Nodo>) p;
 		this.tiempo=0; 
 		// modificar
 	}
@@ -44,7 +44,22 @@ public class Ruta {
 				);
 		System.out.println("Paradas Intermedias:");
 		
-		for(Parada p : listaParadas) 
+		for(Nodo p : listaParadas) 
+			System.out.print(" " + p.getNumero());
+		
+		System.out.println("");
+	}
+	
+	public void Imprimirr() {
+		System.out.println("Parada inicial: " + pInicial.getNumero()
+				+ " Parada final: " + pFinal.getNumero() 
+				+ " Tiempo: " + tiempo 
+				+ " Distancia: " + distancia 
+				+ " Precio: " + precio
+				);
+		System.out.println("Paradas Intermedias:");
+		
+		for(Nodo p : listaParadas) 
 			System.out.print(" " + p.getNumero());
 		
 		System.out.println("");
@@ -58,11 +73,11 @@ public class Ruta {
 		return tiempo;
 	}
 
-	public Parada getPInicial() {
+	public Nodo getPInicial() {
 		return pInicial;
 	}
 
-	public Parada getPFinal() {
+	public Nodo getPFinal() {
 		return pFinal;
 	}
 
@@ -70,7 +85,7 @@ public class Ruta {
 		return distancia;
 	}
 	
-	public ArrayList<Parada> getParadas(){
+	public ArrayList<Nodo> getParadas(){
 		return listaParadas;
 	}
 	

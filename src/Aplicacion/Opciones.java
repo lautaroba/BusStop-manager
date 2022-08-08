@@ -1,23 +1,26 @@
 package Aplicacion;
 
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
+import Dominio.Gestor;
 
 @SuppressWarnings("serial")
 public class Opciones extends JTabbedPane{
 	
-	public Opciones(Mapa Mapa) {
+	public Opciones(Mapa Mapa, ArrayList<Punto> listaParadas, ArrayList<Flecha> listaConexiones, Gestor g) {
 		
 		this.setBackground(Color.decode("#FFFFFF"));
 		this.setVisible(true);
 		
-		Parada p = new Parada(Mapa);
+		Parada p = new Parada(Mapa, listaParadas, listaConexiones, g);
 		this.add(p, "Paradas");
 		
-		Linea l = new Linea(Mapa);
+		Linea l = new Linea(Mapa, listaParadas, listaConexiones, g);
 		this.add(l, "Lineas");
 		
-		Incidentes i = new Incidentes(Mapa);
+		Incidentes i = new Incidentes(Mapa, listaParadas, listaConexiones);
 		this.add(i, "Incidentes");
 		
 	}

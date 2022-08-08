@@ -3,10 +3,10 @@ package Dominio;
 public class Calle {
 	
 	private double longitud;
-	private Parada inicial;
-	private Parada fin;
+	private Nodo inicial;
+	private Nodo fin;
 	
-	public Calle(Parada i, Parada f, double l ) {
+	public Calle(Nodo i, Nodo f, double l ) {
 		this.longitud = l;
 		this.inicial = i;
 		this.fin = f;
@@ -15,10 +15,10 @@ public class Calle {
 	public double getLongitud() {
 		return longitud;
 	}
-	public Parada getInicial() {
+	public Nodo getInicial() {
 		return inicial;
 	}
-	public Parada getFin() {
+	public Nodo getFin() {
 		return fin;
 	}
 	

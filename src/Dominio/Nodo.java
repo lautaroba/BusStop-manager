@@ -1,6 +1,6 @@
 package Dominio;
 
-public class Parada {
+public class Nodo {
 	
 	private static int contador = 1;
 	
@@ -8,17 +8,19 @@ public class Parada {
 	private int numeroCalle;
 	private String calle;
 	private boolean estado;
+	private boolean esParada;
 	
-	public Parada(int numero, String calle) {
+	public Nodo(int numero, String calle) {
 		super();
 		this.idParada = contador;
 		this.numeroCalle = numero;
 		this.calle = calle;
 		this.estado=true;
+		this.esParada=false;
 		contador++;
 	}
 
-	public boolean equals(Parada p) {
+	public boolean equals(Nodo p) {
 		if(p.getNroParada() == this.idParada)
 			return true;
 		else
@@ -40,11 +42,19 @@ public class Parada {
 	public void setCalle(String calle) {
 		this.calle = calle;
 	}
-	public boolean isEstado() {
+	public boolean isActivo() {
 		return estado;
 	}
-	public void setEstado(boolean estado) {
-		this.estado = estado;
+	public void desactivar() {
+		this.estado = false;
 	}
-	
+	public void activar() {
+		this.estado = true;
+	}
+	public boolean isParada() {
+		return esParada;
+	}
+	public void setParada(boolean b) {
+		 esParada = b;
+	}
 }

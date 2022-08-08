@@ -5,24 +5,24 @@ import java.util.ArrayList;
 public class Bus {
 	
 	private int numero;
-	private Parada inicio, fin, auxiliar;
+	private Nodo inicio, fin, auxiliar;
 	
-	public Bus (Parada a, Parada b, int n) {
+	public Bus (Nodo a, Nodo b, int n) {
 		this.inicio = a;
 		this.fin = b;
 		this.numero = n;
 		this.auxiliar=null;
 	}
-	public Parada getInicio() {
+	public Nodo getInicio() {
 		return inicio;
 	}
-	public Parada getFin() {
+	public Nodo getFin() {
 		return fin;
 	}
-	public Parada getAuxiliar() {
+	public Nodo getAuxiliar() {
 		return auxiliar;
 	}
-	public void setAuxilia(Parada a) {
+	public void setAuxilia(Nodo a) {
 		this.auxiliar = a;
 	}
 	public int GetNumero() {
@@ -31,7 +31,7 @@ public class Bus {
 	
 	public ArrayList<Ruta> getRutas(Gestor g) {
 		
-		if(fin.isEstado())
+		if(fin.isActivo())
 			return g.buscarTodasLasRutasDeUnBus(inicio, fin, this);
 		else
 			return g.buscarTodasLasRutasDeUnBus(inicio, auxiliar, this);

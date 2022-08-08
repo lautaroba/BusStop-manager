@@ -5,46 +5,51 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import Exceptions.FechaIncidenteException;
+
 public class Gestor {
 	
 	private ArrayList<Linea> listaLineas;
-	private ArrayList<Calle> listaCaminos;  // aristas
-	private ArrayList<Parada> listaParadas;  // nodos  estas serian esquinas
+	private ArrayList<Calle> listaCaminos;
+	private ArrayList<Nodo> listaParadas;  // nodos  estas serian esquinas
 	private ArrayList<Incidente> listaIncidentes;
 	
 	private ArrayList<Ruta> aristas;  
-	private ArrayList<Parada> nodos;  // estas serian paradas
 	
 	public Gestor() {
 		this.listaLineas = new ArrayList<Linea>();
 		this.listaCaminos = new ArrayList<Calle>();
-		this.listaParadas = new ArrayList<Parada>();
+		this.listaParadas = new ArrayList<Nodo>();
 		this.listaIncidentes = new ArrayList<Incidente>();
 		this.aristas = new ArrayList<Ruta>();
-		this.nodos = new ArrayList<Parada>();
 	}
 	
 	public void agregarLinea(Linea l) {
 		this.listaLineas.add(l);
 	}
 	
-	public void agregarParada(Parada p) {
+	public void agregarParada(Nodo p) {
 		this.listaParadas.add(p);
 	}
 	
-	public void agregarCamino(Parada p1, Parada p2, double longitud) {
+	public void agregarCamino(Nodo p1, Nodo p2, double longitud) {
 		this.listaCaminos.add(new Calle(p1, p2, longitud));
 	}
 	
-	public void agregarIncidente(String i, String f, String s, Parada p) {
+	public void agregarIncidente(LocalDate inicio, LocalDate fin, String d, Nodo p) {
 		
-		this.listaIncidentes.add(new Incidente(i, f, s, p));
+		try {
+			this.listaIncidentes.add(new Incidente(inicio, fin, d, p));
+		} catch (FechaIncidenteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		if(LocalDate.parse(i).equals(java.time.LocalDate.now())) {
+		if(inicio.equals(java.time.LocalDate.now())) {
 			
-			for(Parada j: listaParadas ) {
-			if( j.equals(p))
-				j.setEstado(false);
+			for(Nodo j: listaParadas ) {
+				if( j.equals(p))
+				j.activar();
 			}
 			calcularParadas(p);
 		}
@@ -53,9 +58,9 @@ public class Gestor {
 	/*
 	Propone parada nueva despues de un incidente
 	*/
-	private void calcularParadas(Parada p) {
+	private void calcularParadas(Nodo p) {
 		
-		Parada aux = this.getAdyacentes(p).stream().min(Comparator.comparingDouble(e -> this.getDistancia(p, e))).get();
+		Nodo aux = this.getAdyacentes(p).stream().min(Comparator.comparingDouble(e -> this.getDistancia(p, e))).get();
 		
 		listaLineas.stream().flatMap(l -> l.getBuses().stream()).forEach(new Consumer<Bus>() {
 			@Override
@@ -66,18 +71,18 @@ public class Gestor {
 	}
 	
 	public void terminarIncidente(Incidente i) {
-		Parada p;
+		Nodo p;
 		p = i.getParada();
-		for(Parada j: listaParadas ) {
+		for(Nodo j: listaParadas ) {
 			if( j.equals(p))
-				j.setEstado(true);
+				j.activar();
 		}
 		listaIncidentes.remove(i);
 	}
 	
-	public ArrayList<Parada> getAdyacentes(Parada p){
-		return listaCaminos.stream()							// si es true es q esta activo
-						.filter(e -> e.getInicial().equals(p) && e.getFin().isEstado())
+	public ArrayList<Nodo> getAdyacentes(Nodo p){
+		return listaCaminos.stream()							// si es true es q esta activo, probar si saco esto que pasa
+						.filter(e -> e.getInicial().equals(p) && e.getFin().isActivo())
 						.map(e -> e.getFin())
 						.collect(Collectors.toCollection(ArrayList::new));
 	}
@@ -85,7 +90,7 @@ public class Gestor {
 	/*
 	Solo puedo tener 1 calle entre 2 nodos, no tendria sentido lo contrario
 	*/
-	public double getDistancia(Parada p1, Parada p2) {
+	public double getDistancia(Nodo p1, Nodo p2) {
 		for(Calle c : listaCaminos) {
 			if(c.getInicial().equals(p1) && c.getFin().equals(p2))
 				return c.getLongitud();
@@ -97,11 +102,11 @@ public class Gestor {
 	/*
 	Retorna la distancia total entre 2 paradas
 	*/
-	public double distanciaEntreDosParadas(List<Parada> p, Parada ini , Parada fin) {
+	public double distanciaEntreDosParadas(List<Nodo> p, Nodo ini , Nodo fin) {
         if(!p.isEmpty()) {
-            Parada Actual = p.get(0);
+            Nodo Actual = p.get(0);
             double suma = 0;
-            for(Parada i : p) {
+            for(Nodo i : p) {
                 if(!i.equals(Actual)) {
                     suma += this.getDistancia(Actual, i);
                 }
@@ -118,10 +123,10 @@ public class Gestor {
 	Retorna todos los caminos desde p1 a p2 pero solo difieren sus distancias
 	distancia entre 2 paradas, hacerlo en ruta mas lindo
 	*/
-	public ArrayList<Ruta> buscarTodasLosCaminos(Parada p1, Parada p2) {
+	public ArrayList<Ruta> buscarTodasLosCaminos(Nodo p1, Nodo p2) {
 		
-		ArrayList<List<Parada>> salida = new ArrayList<List<Parada>>();
-		List<Parada> marcados = new ArrayList<Parada>();
+		ArrayList<List<Nodo>> salida = new ArrayList<List<Nodo>>();
+		List<Nodo> marcados = new ArrayList<Nodo>();
 		marcados.add(p1);
 		buscarCaminosAux(p1,p2,marcados,salida);
 		
@@ -133,16 +138,16 @@ public class Gestor {
 	/*
 	Retorna todas las combinaciones de calles entre 2 paradas , tambien una lista con todas las paradas intermedias
 	*/
-	private void buscarCaminosAux(Parada p1, Parada p2, List<Parada> marcados, List<List<Parada>> todos) {
+	private void buscarCaminosAux(Nodo p1, Nodo p2, List<Nodo> marcados, List<List<Nodo>> todos) {
 		
-		List<Parada> adyacentes = this.getAdyacentes(p1);
-		List<Parada> copiaMarcados =null;
-		for(Parada ady: adyacentes){
+		List<Nodo> adyacentes = this.getAdyacentes(p1);
+		List<Nodo> copiaMarcados =null;
+		for(Nodo ady: adyacentes){
 			copiaMarcados = marcados.stream().collect(Collectors.toList());
 			
 			if(ady.equals(p2)) {
 				copiaMarcados.add(p2);
-				todos.add(new ArrayList<Parada>(copiaMarcados));
+				todos.add(new ArrayList<Nodo>(copiaMarcados));
 			}
 			else {
 				if(!copiaMarcados.contains(ady)) {
@@ -157,10 +162,10 @@ public class Gestor {
 	Retorna todas las rutas desde p1 a p2 asociadas a 1 bus
 	distancia entre 2 paradas, hacerlo en ruta mas lindo
 	*/
-	public ArrayList<Ruta> buscarTodasLasRutasDeUnBus(Parada p1, Parada p2, Bus b) {
+	public ArrayList<Ruta> buscarTodasLasRutasDeUnBus(Nodo p1, Nodo p2, Bus b) {
 		
-		ArrayList<List<Parada>> salida = new ArrayList<List<Parada>>();
-		List<Parada> marcados = new ArrayList<Parada>();
+		ArrayList<List<Nodo>> salida = new ArrayList<List<Nodo>>();
+		List<Nodo> marcados = new ArrayList<Nodo>();
 		marcados.add(p1);
 		buscarCaminosAux(p1,p2,marcados,salida);
 		
@@ -183,19 +188,13 @@ public class Gestor {
 	/*
 	Retorna todas las rutas que existen sin importar la linea, entre 2 paradas
 	*/
-	public ArrayList<List<Ruta>> todasLasRutasEntreDosParadas(Parada p1, Parada p2) {
+	public ArrayList<List<Ruta>> todasLasRutasEntreDosParadas(Nodo p1, Nodo p2) {
 		
 		listaLineas.stream()
 					.map(l -> l.getTrayectoLinea(this))
 					.forEach(new Consumer<ArrayList<Ruta>>() {
 						 public void accept(ArrayList<Ruta> r) {
 							aristas.addAll(r);
-					 		for(Ruta c: r) {
-					 			if(!nodos.contains(c.getPInicial()))
-					 				nodos.add(c.getPInicial());
-					 			if(!nodos.contains(c.getPFinal()))
-					 				nodos.add(c.getPFinal());
-					 		}
 						}
 					});
 		
@@ -214,13 +213,13 @@ public class Gestor {
 	/*
 	Retorna los adyacentes segun rutas
 	*/	
-	public ArrayList<Ruta> siguienteParada(Parada p){
+	public ArrayList<Ruta> siguienteParada(Nodo p){
 		return aristas.stream()
 						.filter(e -> e.getPInicial().equals(p))
 						.collect(Collectors.toCollection(ArrayList::new));
 	}
 	
-	private void shortestPathAux(Parada p1, Parada p2, List<Ruta> marcados, List<List<Ruta>> todas) {
+	private void shortestPathAux(Nodo p1, Nodo p2, List<Ruta> marcados, List<List<Ruta>> todas) {
 		
 		List<Ruta> adyacentes = this.siguienteParada(p1);
 		List<Ruta> copiaMarcados =null;
@@ -241,15 +240,7 @@ public class Gestor {
 		}
 	}
 	
-	private double total(List<Ruta> a2) {
-		double suma=0.0;
-		for(Ruta a : a2) {
-			suma+= a.getDistancia();
-		}
-		return suma;
-	}
-	
-	public ArrayList<Ruta> rutaMasCorta(Parada p1, Parada p2){
+	public ArrayList<Ruta> rutaMasCorta(Nodo p1, Nodo p2){
 		
 		double suma=0;
 		double bandera=99999;
@@ -269,7 +260,7 @@ public class Gestor {
 		return aux2;
 	}
 	
-	public ArrayList<Ruta> rutaMasRapida(Parada p1, Parada p2){
+	public ArrayList<Ruta> rutaMasRapida(Nodo p1, Nodo p2){
 		
 		double suma=0;
 		double bandera=99999;
@@ -291,7 +282,7 @@ public class Gestor {
 		return aux2;
 	}
 	
-	public ArrayList<Ruta> rutaMasBarata(Parada p1, Parada p2){
+	public ArrayList<Ruta> rutaMasBarata(Nodo p1, Nodo p2){
 		
 		double suma=0;
 		double bandera=99999;
