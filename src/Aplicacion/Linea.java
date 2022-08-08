@@ -133,6 +133,7 @@ public class Linea extends JPanel {
 						eco.setSelected(false);
 						wifi.setEnabled(true);
 						aire.setEnabled(true);
+						
 						porcentaje.setEnabled(false);
 				});
 				
