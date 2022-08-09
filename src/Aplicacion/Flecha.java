@@ -35,4 +35,9 @@ public class Flecha {
 	public Color getColor() {
 		return color;
 	}
+	
+	public void escribir() {
+		System.out.println("nom pun : " + puntoInicio.getNombreParada() + " nom fin : " + puntoFinal.getNombreParada());
+	}
+	
 }

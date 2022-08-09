@@ -23,13 +23,13 @@ public class Grafo extends JPanel{
 		//this.dibujarParadas(g);
 	}
 	
-	void dibujarParadas(Graphics g1) {
+	void dibujarParadas(Graphics g1, ArrayList<Punto> listaNuevaParadas, ArrayList<Flecha> listaNuevaConexiones) {
 
 		super.paintComponent(g1);
 		Graphics2D g2 = (Graphics2D) g1;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
-		for(Punto p1 : listaParadas) {
+		for(Punto p1 : listaNuevaParadas) {
 			if(p1.getEstadoIncidente()) g2.setColor(Color.RED);
 			else if(p1.getEstadoParada()) g2.setColor(Color.GREEN);
 			else g2.setColor(Color.BLACK);
@@ -37,13 +37,8 @@ public class Grafo extends JPanel{
 			g2.fill(p1);	
 		}
 		
-		for(Flecha f : listaConexiones) {
-			if(f.getColor() == Color.BLACK)
-				this.pintarFlecha(getGraphics(), f, Color.BLACK);
-			else
+		for(Flecha f : listaNuevaConexiones) 
 				this.pintarFlecha(getGraphics(), f, f.getColor());
-			
-		}
 		
 		this.revalidate();
 	}  // FUNCION PARA DIBUJAR PUNTOS PRECARGADOS

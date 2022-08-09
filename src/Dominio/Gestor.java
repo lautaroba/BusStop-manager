@@ -38,9 +38,15 @@ public class Gestor {
 		this.listaParadas.add(p);
 	}
 	
-	public void agregarCamino(Nodo p1, Nodo p2, double longitud) {
-		this.listaCaminos.add(new Calle(p1, p2, longitud));
+	public Calle agregarCamino(Nodo p1, Nodo p2, double longitud) {
+		Calle aux = new Calle(p1, p2, longitud);
+		this.listaCaminos.add(aux);
+		return aux;
 	}
+	
+//	public void agregarCamino(Nodo p1, Nodo p2, double longitud) {
+//		this.listaCaminos.add(new Calle(p1, p2, longitud));
+//	}
 	
 	public void agregarIncidente(LocalDate inicio, LocalDate fin, String d, Nodo p) {
 		

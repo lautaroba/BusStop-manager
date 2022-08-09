@@ -24,7 +24,7 @@ public class Mapa extends JPanel{
 		Runnable r = () -> {
 			try {
 				Thread.sleep(200);
-				g.dibujarParadas(getGraphics());
+				g.dibujarParadas(getGraphics(), listaParadas, listaConexiones);
 			} catch (InterruptedException e1) {
 				System.out.println("No se pudo cargar el mapa");
 			}
@@ -43,7 +43,7 @@ public class Mapa extends JPanel{
 	}
 
 	public void dibujarGrafo(ArrayList<Punto> listaParadas, ArrayList<Flecha> listaConexiones) {
-		g.dibujarParadas(getGraphics());
+		g.dibujarParadas(getGraphics(), listaParadas, listaConexiones);
 	}
 	
 }

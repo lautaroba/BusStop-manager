@@ -1,12 +1,15 @@
 package Aplicacion;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import Dominio.Gestor;
+import Dominio.Nodo;
 
 public class App {
 
 	public static void main(String[] args) {
+		
 		ArrayList<Punto> listaParadas = new ArrayList<Punto>();
 		ArrayList<Flecha> listaConexiones = new ArrayList<Flecha>();
 		Gestor g = new Gestor();
@@ -34,6 +37,18 @@ public class App {
 		listaParadas.add(p10);
 		Punto p11 = new Punto(600, 400, "General Risso", 11);
 		listaParadas.add(p11);
+		
+		Nodo n1 = new Nodo(1, "Piedras");
+		Nodo n2 = new Nodo(2, "Lavalle");
+		Nodo n3 = new Nodo(3, "Roberto Godoy");
+		Nodo n4 = new Nodo(4, "Obispo Boneo");
+		Nodo n5 = new Nodo(5, "Obispo Principe");
+		Nodo n6 = new Nodo(6, "Marcial Candioti");
+		Nodo n7 = new Nodo(7, "General Paz");
+		Nodo n8 = new Nodo(8, "Boulevard Galves");
+		Nodo n9 = new Nodo(9, "Avenida Almirante Brown");
+		Nodo n10 = new Nodo(10, "Avenida Alejandro Alem");
+		Nodo n11 = new Nodo(11, "General Risso"); 
 		
 		g.agregarParada(p1.getNodo());
 		g.agregarParada(p2.getNodo());
@@ -64,28 +79,47 @@ public class App {
 		listaConexiones.add(f7); 
 		Flecha f8 = new Flecha(p4, p10, 50);
 		listaConexiones.add(f8);
-		Flecha f9 = new Flecha(p4, p10, 50);
+		Flecha f9 = new Flecha(p5, p11, 40);
 		listaConexiones.add(f9);
-		Flecha f10 = new Flecha(p5, p11, 40);
+		Flecha f10 = new Flecha(p6, p7, 50);
 		listaConexiones.add(f10);
-		Flecha f11 = new Flecha(p6, p7, 50);
+		Flecha f11 = new Flecha(p6, p9, 40);
 		listaConexiones.add(f11);
-		Flecha f12 = new Flecha(p6, p9, 40);
+		Flecha f12 = new Flecha(p7, p8, 40);
 		listaConexiones.add(f12);
-		Flecha f13 = new Flecha(p7, p8, 40);
+		Flecha f13 = new Flecha(p8, p1, 120);
 		listaConexiones.add(f13);
-		Flecha f14 = new Flecha(p8, p1, 120);
+		Flecha f14 = new Flecha(p8, p9, 50);
 		listaConexiones.add(f14);
-		Flecha f15 = new Flecha(p8, p9, 50);
+		Flecha f15 = new Flecha(p9, p11, 100);
 		listaConexiones.add(f15);
-		Flecha f16 = new Flecha(p9, p11, 100);
+		Flecha f16 = new Flecha(p9, p3, 250);
 		listaConexiones.add(f16);
-		Flecha f17 = new Flecha(p9, p3, 250);
+		Flecha f17 = new Flecha(p10, p9, 40);
 		listaConexiones.add(f17);
-		Flecha f18 = new Flecha(p10, p9, 40);
+		Flecha f18 = new Flecha(p11, p1, 350);
 		listaConexiones.add(f18);
-		Flecha f19 = new Flecha(p11, p1, 350);
-		listaConexiones.add(f19);
+		
+		g.agregarCamino(p1.getNodo(),p2.getNodo(),50);
+		g.agregarCamino(p1.getNodo(),p6.getNodo(),70);
+		g.agregarCamino(p1.getNodo(),p7.getNodo(),40);
+		g.agregarCamino(p2.getNodo(),p3.getNodo(),100);
+		g.agregarCamino(p2.getNodo(),p5.getNodo(),200);
+		g.agregarCamino(p3.getNodo(),p4.getNodo(),30);
+		g.agregarCamino(p4.getNodo(),p6.getNodo(),30);
+		g.agregarCamino(p4.getNodo(),p10.getNodo(),50);
+		g.agregarCamino(p5.getNodo(),p11.getNodo(),40);
+		g.agregarCamino(p6.getNodo(),p7.getNodo(),50);
+		g.agregarCamino(p6.getNodo(),p9.getNodo(),40);
+		g.agregarCamino(p7.getNodo(),p8.getNodo(),40);
+		g.agregarCamino(p8.getNodo(),p1.getNodo(),120);
+		g.agregarCamino(p8.getNodo(),p9.getNodo(),50);
+		g.agregarCamino(p9.getNodo(),p11.getNodo(),100);
+		g.agregarCamino(p9.getNodo(),p3.getNodo(),250);
+		g.agregarCamino(p10.getNodo(),p9.getNodo(),40);
+		g.agregarCamino(p11.getNodo(),p1.getNodo(),350);
+		
+		
 		
 		//for(Punto p : listaParadas) System.out.println("componente X: "+p.getX()+" componente Y: "+p.getY());
 		new Programa("Trabajo Practico", listaParadas, listaConexiones, g);

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import Dominio.Bus;
+import Dominio.Calle;
 import Dominio.Economica;
 import Dominio.Gestor;
 import Dominio.Linea;
@@ -177,7 +178,10 @@ public class LineaInterfaz extends JPanel {
 	}
 
 	public Color devolverColor(String s) {
-	    if(s.equalsIgnoreCase("azul")) return Color.BLUE;
+	    if(s.equalsIgnoreCase("azul")) { 
+	    	System.out.println(" aca entre padre ashw");
+	    	return Color.BLUE;
+	    }
 	    else if (s.equalsIgnoreCase("amarillo")) return Color.YELLOW;
 	    else if (s.equalsIgnoreCase("magenta")) return Color.MAGENTA;
 	    else if(s.equalsIgnoreCase("cyan")) return Color.CYAN;
@@ -432,6 +436,8 @@ private void EliminarBus(JButton b) {
 			if(Aceptar.isEnabled()) {
 				lineaSeleccionada.eliminarBus(busSeleccionado);
 				busSeleccionado = null;
+				b10.setEnabled(false);
+				b8.setEnabled(false);
 				Temporal.dispose();
 			}
 		});
@@ -510,17 +516,24 @@ private void BuscarBus(JButton b) {
 	
 	private void trayectoDeUnBus(JButton b) {
 		
-		ArrayList<Flecha> f = listaConexiones;
-		
 		b.addActionListener(e -> {
-			
+			System.out.println("la linea es : " + lineaSeleccionada.getNombre());
 			for(Ruta r : busSeleccionado.getRutas(g)) {
-				for(Flecha fl : f) {
-					if(fl.getPuntoInicio().getNodo().equals(r.getPInicial()) && fl.getPuntoFinal().getNodo().equals(r.getPFinal()))
-						fl.setColor(lineaSeleccionada.getColor());
+				for(Flecha f : listaConexiones) {
+					ArrayList<Nodo> p = r.getParadas();
+					if(!p.isEmpty()) {
+			            Nodo Actual = p.get(0);
+			            for(Nodo i : p) {
+			                if(!i.equals(Actual)) {
+			                   if(f.getPuntoInicio().getNodo().equals(Actual) && f.getPuntoFinal().getNodo().equals(i))
+			                	   f.setColor(lineaSeleccionada.getColor());
+			                }
+			                Actual = i;
+			            }
+			        }
 				}
 			}
-			mapa.dibujarGrafo(listaParadas, f);
+			mapa.dibujarGrafo(listaParadas, listaConexiones);
 		});
 	}
 	
