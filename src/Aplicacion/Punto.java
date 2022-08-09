@@ -12,7 +12,7 @@ public class Punto extends Ellipse2D.Double{
 	private int numeroParada;
 	private boolean incidenteRegistrado = false;
 	private boolean esParada = false;
-	public Nodo n;
+	private Nodo n;
 	//private int id;
 	
 	public Punto(int x, int y) {
@@ -37,6 +37,9 @@ public class Punto extends Ellipse2D.Double{
 		this.n = new Nodo(numero, nombre);
 	}
 	
+	public Nodo getNodo() {
+		return n;
+	}
 	public double getX() { 
 		return this.x;
 	}

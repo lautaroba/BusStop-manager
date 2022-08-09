@@ -1,5 +1,6 @@
 package Dominio;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +21,9 @@ public class eliminar {
 		Nodo p10 = new Nodo(10, "Avenida Alejandro Alem");
 		Nodo p11 = new Nodo(11, "General Risso"); 
 		
-		Linea sup = new Superior("Linea A", "Rojo", 50, TipoServicio.AirConditioner, 10);
-		Linea eco = new Economica("Linea B", "Azul", 100, 0.3, 2);
-
+		Linea sup = new Superior("Linea A", Color.RED, 50, TipoServicio.AirConditioner, 10);
+		Linea eco = new Economica("Linea B", Color.BLUE, 100, 0.3, 2);
+		
 		Bus b1 = new Bus(p1, p11, 10);
 		Bus b2 = new Bus(p3, p8, 20);
 		Bus b3 = new Bus(p11, p1, 30);

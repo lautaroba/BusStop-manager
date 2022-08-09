@@ -25,9 +25,15 @@ public class Bus {
 	public void setAuxilia(Nodo a) {
 		this.auxiliar = a;
 	}
-	public int GetNumero() {
+	public int getNumero() {
 		return numero;
 	}
+	
+	public void modificarBus(Nodo a, Nodo b, int n) {
+        this.inicio = a;
+        this.fin = b;
+        this.numero = n;
+    }
 	
 	public ArrayList<Ruta> getRutas(Gestor g) {
 		

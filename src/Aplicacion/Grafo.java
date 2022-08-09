@@ -37,8 +37,13 @@ public class Grafo extends JPanel{
 			g2.fill(p1);	
 		}
 		
-		for(Flecha f : listaConexiones) 
-			this.pintarFlecha(getGraphics(), f, Color.BLACK);
+		for(Flecha f : listaConexiones) {
+			if(f.getColor() == Color.BLACK)
+				this.pintarFlecha(getGraphics(), f, Color.BLACK);
+			else
+				this.pintarFlecha(getGraphics(), f, f.getColor());
+			
+		}
 		
 		this.revalidate();
 	}  // FUNCION PARA DIBUJAR PUNTOS PRECARGADOS

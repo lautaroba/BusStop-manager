@@ -17,11 +17,14 @@ public class Opciones extends JTabbedPane{
 		Parada p = new Parada(Mapa, listaParadas, listaConexiones, g);
 		this.add(p, "Paradas");
 		
-		Linea l = new Linea(Mapa, listaParadas, listaConexiones, g);
+		LineaInterfaz l = new LineaInterfaz(Mapa, listaParadas, listaConexiones, g);
 		this.add(l, "Lineas");
 		
 		Incidentes i = new Incidentes(Mapa, listaParadas, listaConexiones);
 		this.add(i, "Incidentes");
+		
+		Boletos b = new Boletos(Mapa, listaParadas, listaConexiones, g);
+		this.add(b, "Boletos");
 		
 	}
 	

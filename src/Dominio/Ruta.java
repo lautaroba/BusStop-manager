@@ -37,7 +37,7 @@ public class Ruta {
 	public void Imprimir() {
 		System.out.println("Parada inicial: " + pInicial.getNumero()
 				+ " Parada final: " + pFinal.getNumero() 
-				+ " Bus: " + bus.GetNumero()
+				+ " Bus: " + bus.getNumero()
 				+ " Tiempo: " + tiempo 
 				+ " Distancia: " + distancia 
 				+ " Precio: " + precio

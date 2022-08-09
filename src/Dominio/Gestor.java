@@ -24,6 +24,12 @@ public class Gestor {
 		this.aristas = new ArrayList<Ruta>();
 	}
 	
+	public ArrayList<Linea> getListaLineas() {
+		return listaLineas;
+	}
+	public void eliminarLinea(Linea l) {
+		listaLineas.remove(l);
+	}
 	public void agregarLinea(Linea l) {
 		this.listaLineas.add(l);
 	}
@@ -302,6 +308,12 @@ public class Gestor {
 			
 		}
 		return aux2;
+	}
+	
+	public Bus busQueCoincide(int n) {
+		
+		return listaLineas.stream().flatMap(l -> l.getBuses().stream()).filter(b -> b.getNumero() == n).findAny().get();
+		
 	}
 	
 }

@@ -85,7 +85,7 @@ public class Parada extends JPanel {
 								|| numParada.getText().equals(Integer.toString(p.getNumeroParada()))) {
 								
 								p.registrarParada(true);
-								p.n.setParada(true);
+								p.getNodo().setParada(true);
 								b2.setEnabled(true);
 								b3.setEnabled(true);
 								mapa.dibujarGrafo(listaParadas, listaConexiones);
@@ -168,7 +168,7 @@ public class Parada extends JPanel {
 					for(Punto p : listaParadas) {
 						if(nomParada.getText().equalsIgnoreCase(p.getNombreParada()) || numParada.getText().equals(Integer.toString(p.getNumeroParada()))) {
 							p.registrarParada(false);
-							p.n.setParada(false);
+							p.getNodo().setParada(false);
 							mapa.dibujarGrafo(listaParadas, listaConexiones);
 						}
 					}

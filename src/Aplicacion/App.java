@@ -35,17 +35,17 @@ public class App {
 		Punto p11 = new Punto(600, 400, "General Risso", 11);
 		listaParadas.add(p11);
 		
-		g.agregarParada(p1.n);
-		g.agregarParada(p2.n);
-		g.agregarParada(p3.n);
-		g.agregarParada(p4.n);
-		g.agregarParada(p5.n);
-		g.agregarParada(p6.n);
-		g.agregarParada(p7.n);
-		g.agregarParada(p8.n);
-		g.agregarParada(p9.n);
-		g.agregarParada(p10.n);
-		g.agregarParada(p11.n);
+		g.agregarParada(p1.getNodo());
+		g.agregarParada(p2.getNodo());
+		g.agregarParada(p3.getNodo());
+		g.agregarParada(p4.getNodo());
+		g.agregarParada(p5.getNodo());
+		g.agregarParada(p6.getNodo());
+		g.agregarParada(p7.getNodo());
+		g.agregarParada(p8.getNodo());
+		g.agregarParada(p9.getNodo());
+		g.agregarParada(p10.getNodo());
+		g.agregarParada(p11.getNodo());
 		// Declaración líneas precargadas
 		
 		Flecha f1 = new Flecha(p1, p2, 50); 
