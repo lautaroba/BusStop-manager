@@ -14,6 +14,7 @@ public class Flecha {
 		this.puntoInicio = pI;
 		this.puntoFinal = pF;
 		this.c = new Calle(pI.getNodo(), pF.getNodo(), l);
+		this.color = Color.GRAY;
 	}
 	
 	public Punto getPuntoInicio() {

@@ -1,5 +1,6 @@
 package Aplicacion;
 
+import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 
 import Dominio.Nodo;
@@ -11,22 +12,24 @@ public class Punto extends Ellipse2D.Double{
 	private String nombreParada;
 	private int numeroParada;
 	private boolean incidenteRegistrado = false;
-	private boolean esParada = false;
 	private Nodo n;
+	private Color color;
 	//private int id;
 	
 	public Punto(int x, int y) {
 		//this.id = contador;
 		this.x = x;
 		this.y = y;
-		this.height=10;
-		this.width=10;
+		this.height=15;
+		this.width=15;
 		this.incidenteRegistrado = false;
 		contador++;
+		this.setColor(Color.GRAY);
 	}
 	
 	public Punto(int x, int y, String nombre, int numero) {
 		//this.id = contador;
+		this.setColor(Color.GRAY);
 		this.x = x;
 		this.y = y;
 		this.height=10;
@@ -58,10 +61,10 @@ public class Punto extends Ellipse2D.Double{
 	public void registrarIncidente(boolean inc) { 
 		this.incidenteRegistrado = inc;
 	}
-	public boolean getEstadoParada() { 
-		return this.esParada;
+	public void setColor(Color c) {
+		this.color = c;
 	}
-	public void registrarParada(boolean inc) {
-		this.esParada = inc;
+	public Color getColor() {
+		return this.color;
 	}
 }

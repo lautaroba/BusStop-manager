@@ -23,9 +23,6 @@ public class Opciones extends JTabbedPane{
 		Incidentes i = new Incidentes(Mapa, listaParadas, listaConexiones);
 		this.add(i, "Incidentes");
 		
-		Boletos b = new Boletos(Mapa, listaParadas, listaConexiones, g);
-		this.add(b, "Boletos");
-		
 	}
 	
 	

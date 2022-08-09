@@ -24,7 +24,7 @@ public class Programa extends JFrame{
 		
 		this.pack();
 		this.setResizable(false);
-		this.setSize(1200,800);
+		this.setSize(1050,800);
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 	

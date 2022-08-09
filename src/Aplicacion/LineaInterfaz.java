@@ -27,6 +27,7 @@ public class LineaInterfaz extends JPanel {
 	private Linea lineaSeleccionada;
 	private Bus busSeleccionado;
 	
+	
 	public LineaInterfaz(Mapa m, ArrayList<Punto> listaParadas, ArrayList<Flecha> listaConexiones, Gestor gestor) {
 		
 		this.mapa = m;
@@ -92,6 +93,7 @@ public class LineaInterfaz extends JPanel {
 	               BuscarBus(b6);
 	               EliminarBus(b7);
 	               ModificarBus(b8);
+	               trayectoDeUnaLinea(b9);
 	               trayectoDeUnBus(b10);
 	           }
 	       });
@@ -292,6 +294,7 @@ public class LineaInterfaz extends JPanel {
 						b3.setEnabled(true);
 						b4.setEnabled(true);
 						b5.setEnabled(true);
+						b6.setEnabled(true);
 						b9.setEnabled(true);
 						lineaSeleccionada = aux;
 					}
@@ -299,6 +302,7 @@ public class LineaInterfaz extends JPanel {
 						b3.setEnabled(false);
 						b4.setEnabled(false);
 						b5.setEnabled(false);
+						b6.setEnabled(true);
 						b9.setEnabled(false);
 						lineaSeleccionada = null;
 					}
@@ -495,9 +499,8 @@ private void BuscarBus(JButton b) {
     });
     
 
-}
+	}
 
-	
 	private void trayectoDeUnaLinea(JButton b) {
 		
 		b.addActionListener(e -> {
@@ -506,18 +509,28 @@ private void BuscarBus(JButton b) {
 			a = g.trayectoTotalDeUnaLinea(lineaSeleccionada);
 			
 			for(Ruta r : a) {
-				
-				
-				
+				for(Flecha f : listaConexiones) {
+					ArrayList<Nodo> p = r.getParadas();
+					if(!p.isEmpty()) {
+			            Nodo Actual = p.get(0);
+			            for(Nodo i : p) {
+			                if(!i.equals(Actual)) {
+			                   if(f.getPuntoInicio().getNodo().equals(Actual) && f.getPuntoFinal().getNodo().equals(i))
+			                	   f.setColor(lineaSeleccionada.getColor());
+			                }
+			                Actual = i;
+			            }
+			        }
+				}
 			}
-			
+			mapa.dibujarGrafo(listaParadas, listaConexiones);
 		});
 	}
 	
 	private void trayectoDeUnBus(JButton b) {
 		
 		b.addActionListener(e -> {
-			System.out.println("la linea es : " + lineaSeleccionada.getNombre());
+//			System.out.println("la linea es : " + lineaSeleccionada.getNombre());
 			for(Ruta r : busSeleccionado.getRutas(g)) {
 				for(Flecha f : listaConexiones) {
 					ArrayList<Nodo> p = r.getParadas();

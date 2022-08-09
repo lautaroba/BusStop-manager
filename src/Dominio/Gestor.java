@@ -322,6 +322,10 @@ public class Gestor {
 		
 	}
 	
+	public Linea getLinea(Bus b) {
+		return listaLineas.stream().filter(e -> e.getBuses().contains(b)).findFirst().get();
+	}
+	
 }
 
 

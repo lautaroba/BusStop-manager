@@ -28,35 +28,40 @@ public class Grafo extends JPanel{
 		super.paintComponent(g1);
 		Graphics2D g2 = (Graphics2D) g1;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-		
-		for(Punto p1 : listaNuevaParadas) {
-			if(p1.getEstadoIncidente()) g2.setColor(Color.RED);
-			else if(p1.getEstadoParada()) g2.setColor(Color.GREEN);
-			else g2.setColor(Color.BLACK);
-			g2.drawString(String.valueOf(p1.getNumeroParada()), (int)p1.getX(), (int)p1.getY());
-			g2.fill(p1);	
-		}
-		
+				
 		for(Flecha f : listaNuevaConexiones) 
 				this.pintarFlecha(getGraphics(), f, f.getColor());
 		
-		this.revalidate();
+		for(Punto p1 : listaNuevaParadas) {
+			g2.setColor(Color.BLACK);
+			g2.drawString(String.valueOf(p1.getNumeroParada()), (int)p1.getX()+2, (int)p1.getY()-2);
+			g2.setColor(p1.getColor());
+			g2.fill(p1);	
+		}
+		g2.setColor(Color.BLACK);
+		g2.drawString(String.valueOf("Ciudad de Santa Fe"), 300, 50);
+		this.revalidate();		
+
 	}  // FUNCION PARA DIBUJAR PUNTOS PRECARGADOS
 
 	
-	public ArrayList<Punto> getListaParadas(){ return listaParadas;}
-	public ArrayList<Flecha> getListaConexiones(){ return listaConexiones;}
+	public ArrayList<Punto> getListaParadas(){ 
+		return listaParadas;
+	}
+	public ArrayList<Flecha> getListaConexiones(){ 
+		return listaConexiones;
+	}
 
-	
-	 void pintarFlecha(Graphics g1, Flecha f, Color var) {
+	void pintarFlecha(Graphics g1, Flecha f, Color var) {
 		 	//super.paintComponent(g1);
-
-		 	double x1 = f.getPuntoInicio().getX();
-		 	double y1 = f.getPuntoInicio().getY();
-		 	double x2 = f.getPuntoFinal().getX();
-		 	double y2 = f.getPuntoFinal().getY();
+			
+		 	double x1 = f.getPuntoInicio().getX()+5;
+		 	double y1 = f.getPuntoInicio().getY()+5;
+		 	double x2 = f.getPuntoFinal().getX()+5;
+		 	double y2 = f.getPuntoFinal().getY()+5;
 		    //Graphics2D ga = (Graphics2D) g1;
 		    g1.setColor(var);
+		    ((Graphics2D) g1).setStroke(new BasicStroke(2)); 
 		    g1.drawLine((int)x1, (int)y1, (int)x2, (int)y2);
 		    
 		    double l = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));//  line length

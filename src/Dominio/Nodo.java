@@ -51,7 +51,7 @@ public class Nodo {
 	public void activar() {
 		this.estado = true;
 	}
-	public boolean isParada() {
+	public boolean esParada() {
 		return esParada;
 	}
 	public void setParada(boolean b) {

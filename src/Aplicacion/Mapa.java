@@ -17,8 +17,9 @@ public class Mapa extends JPanel{
 		this.setBackground(Color.decode("#DEDEDE"));
 		this.setLayout(new GridBagLayout());
 		this.setVisible(true);
-		//JLabel Etiqueta1 = new JLabel("Ciudad de Santa Fe");
-		//this.add(Etiqueta1, new GBC(0, 0).setWeight(0.01, 0.01).setAnchor(GBC.CENTER).setFill(GBC.HORIZONTAL)); ETIQUETA CIUDAD
+//		JLabel Etiqueta1 = new JLabel("Ciudad de Santa Fe");
+//		Etiqueta1.setVisible(true);
+//		this.add(Etiqueta1, new GBC(0, 1).setWeight(0.1, 0.1).setFill(GBC.HORIZONTAL)); 
 		g = new Grafo(getGraphics(), listaParadas, listaConexiones);
 			
 		Runnable r = () -> {
@@ -35,7 +36,9 @@ public class Mapa extends JPanel{
 	
 		g.validate();
 		//b.setVisible(false);
-		this.add(g, new GBC(1, 1).setWeight(1, 1).setFill(GBC.BOTH));
+		this.add(g, new GBC(0, 2).setWeight(0.9, 0.9).setFill(GBC.BOTH));
+		
+		//this.add(new JFrame("ashe"), new GBC(1, 1).setWeight(1, 1).setFill(GBC.BOTH));
 	}
 	
 	public Grafo getGrafo() { 

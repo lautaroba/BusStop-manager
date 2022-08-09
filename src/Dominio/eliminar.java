@@ -21,18 +21,18 @@ public class eliminar {
 		Nodo p10 = new Nodo(10, "Avenida Alejandro Alem");
 		Nodo p11 = new Nodo(11, "General Risso"); 
 		
-		Linea sup = new Superior("Linea A", Color.RED, 50, TipoServicio.AirConditioner, 10);
+		Linea sup = new Superior("Linea A", Color.RED, 50, TipoServicio.AirConditioner, 100);
 		Linea eco = new Economica("Linea B", Color.BLUE, 100, 0.3, 2);
 		
-		Bus b1 = new Bus(p1, p11, 10);
-		Bus b2 = new Bus(p3, p8, 20);
-		Bus b3 = new Bus(p11, p1, 30);
+		Bus b1 = new Bus(p1, p5, 10);
+//		Bus b2 = new Bus(p3, p8, 20);
+//		Bus b3 = new Bus(p11, p1, 30);
 		
-		Bus b4 = new Bus(p1, p4, 2);
-		Bus b5 = new Bus(p4, p8, 3);
-		Bus b6 = new Bus(p8, p2, 4);
-		Bus b7 = new Bus(p2, p5, 5);
-		Bus b8 = new Bus(p5, p6, 6);
+		Bus b4 = new Bus(p5, p11, 2);
+		Bus b5 = new Bus(p1, p11, 3);
+//		Bus b6 = new Bus(p8, p2, 4);
+//		Bus b7 = new Bus(p2, p5, 5);
+//		Bus b8 = new Bus(p5, p6, 6);
 		
 			g.agregarParada(p1);
 			g.agregarParada(p2);
@@ -69,13 +69,13 @@ public class eliminar {
 			g.agregarCamino(p11,p1,35);
 			
 			sup.setBuses(b1);
-			sup.setBuses(b2);
-			sup.setBuses(b3);
+//			sup.setBuses(b2);
+//			sup.setBuses(b3);
 			eco.setBuses(b4);
 			eco.setBuses(b5);
-			eco.setBuses(b6);
-			eco.setBuses(b7);
-			eco.setBuses(b8);
+//			eco.setBuses(b6);
+//			eco.setBuses(b7);
+//			eco.setBuses(b8);
 			
 			testTodosLosCaminosEntre2Paradas(g,p1,p11);
 			testBuscarTodasLasRutasDeUnBus(g,p1,p11,b1);
@@ -142,12 +142,12 @@ public class eliminar {
 		
 		static void testrutaMasRapida(Gestor g, Nodo p1, Nodo p11) {
 			
-			ArrayList<Ruta> a = g.rutaMasCorta(p1,p11);
+			ArrayList<Ruta> a = g.rutaMasRapida(p1,p11);
 			
 			for(Ruta r : a)
 				r.Imprimir();
 			
-			System.out.println("----------- Termina testrutaMasCorta ---------------");
+			System.out.println("----------- Termina testrutaMasRapida ---------------");
 		}
 		
 		static void testrutaMasBarata(Gestor g, Nodo p1, Nodo p11) {

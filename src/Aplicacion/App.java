@@ -3,8 +3,13 @@ package Aplicacion;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import Dominio.Bus;
+import Dominio.Economica;
 import Dominio.Gestor;
+import Dominio.Linea;
 import Dominio.Nodo;
+import Dominio.Superior;
+import Dominio.TipoServicio;
 
 public class App {
 
@@ -119,7 +124,15 @@ public class App {
 		g.agregarCamino(p10.getNodo(),p9.getNodo(),40);
 		g.agregarCamino(p11.getNodo(),p1.getNodo(),350);
 		
+		Linea sup = new Superior("a", Color.RED, 50, TipoServicio.AirConditioner, 100);
+		Linea eco = new Economica("b", Color.BLUE, 100, 0.3, 2);
+	
+		sup.setBuses(new Bus(p1.getNodo(), p5.getNodo(), 10));
+		eco.setBuses(new Bus(p5.getNodo(), p11.getNodo(), 2));
+		eco.setBuses(new Bus(p1.getNodo(), p11.getNodo(), 3));
 		
+		g.agregarLinea(sup);
+		g.agregarLinea(eco);
 		
 		//for(Punto p : listaParadas) System.out.println("componente X: "+p.getX()+" componente Y: "+p.getY());
 		new Programa("Trabajo Practico", listaParadas, listaConexiones, g);

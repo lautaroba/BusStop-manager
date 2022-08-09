@@ -28,6 +28,12 @@ public class Bus {
 	public int getNumero() {
 		return numero;
 	}
+	public boolean equals(Bus b) {
+		if(this.numero == b.getNumero())
+			return true;
+		else
+			return false;
+	}
 	
 	public void modificarBus(Nodo a, Nodo b, int n) {
         this.inicio = a;
