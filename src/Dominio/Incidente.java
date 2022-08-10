@@ -16,19 +16,19 @@ public class Incidente implements Comparable<Incidente> {
 	private String descripcion;
 	private boolean activa;
 
-	public Incidente(LocalDate inicio, LocalDate fin, String d, Nodo p) throws FechaIncidenteException{
-		
+	public Incidente(LocalDate inicio, LocalDate fin, String d, Nodo p) throws FechaIncidenteException {
+
 		if (fin != null) {
-			if(inicio.isAfter(fin)) 
+			if (inicio.isAfter(fin))
 				throw new FechaIncidenteException("La fecha de inicio debe ser anterior a la fecha de fin");
 		} else if (inicio.isAfter(LocalDate.now()))
-				throw new FechaIncidenteException("La fecha de inicio debe ser anterior a la fecha de fin");
+			throw new FechaIncidenteException("La fecha de inicio debe ser anterior a la fecha de fin");
 		this.inicio = inicio;
 		this.fin = fin;
 		this.descripcion = d;
 		this.activa = true;
 		this.parada = p;
-		p.desactivar();
+		p.setEstado(false);
 		this.id = contador;
 		contador++;
 	}
@@ -115,7 +115,7 @@ public class Incidente implements Comparable<Incidente> {
 
 		} else {
 			return getDuracionAux().compareTo(o.getDuracionAux());
-	
+
 		}
 	}
 
@@ -135,7 +135,7 @@ public class Incidente implements Comparable<Incidente> {
 
 	public void desactivar() {
 		this.activa = false;
-		
+
 	}
 
 }

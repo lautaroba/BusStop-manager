@@ -3,7 +3,7 @@ package Dominio;
 import java.util.*;
 
 public class Ruta {
-	
+
 	private Bus bus;
 	private double precio;
 	private Nodo pInicial;
@@ -18,11 +18,12 @@ public class Ruta {
 		this.pInicial = i;
 		this.pFinal = f;
 		this.listaParadas = (ArrayList<Nodo>) p;
-		this.tiempo=t; 
+		this.tiempo = t;
 		this.bus = b;
 		this.precio = pr;
 		// modificar
 	}
+
 	// eseria un camino
 	public Ruta(Nodo i, Nodo f, double d, List<Nodo> p) {
 		super();
@@ -30,42 +31,33 @@ public class Ruta {
 		this.pInicial = i;
 		this.pFinal = f;
 		this.listaParadas = (ArrayList<Nodo>) p;
-		this.tiempo=0; 
+		this.tiempo = 0;
 		// modificar
 	}
-	
+
 	public void Imprimir() {
-		System.out.println("Parada inicial: " + pInicial.getNumero()
-				+ " Parada final: " + pFinal.getNumero() 
-				+ " Bus: " + bus.getNumero()
-				+ " Tiempo: " + tiempo 
-				+ " Distancia: " + distancia 
-				+ " Precio: " + precio
-				);
+		System.out.println("Parada inicial: " + pInicial.getNumero() + " Parada final: " + pFinal.getNumero() + " Bus: "
+				+ bus.getNumero() + " Tiempo: " + tiempo + " Distancia: " + distancia + " Precio: " + precio);
 		System.out.println("Paradas Intermedias:");
-		
-		for(Nodo p : listaParadas) 
+
+		for (Nodo p : listaParadas)
 			System.out.print(" " + p.getNumero());
-		
+
 		System.out.println("");
 	}
-	
+
 	public void Imprimirr() {
-		System.out.println("Parada inicial: " + pInicial.getNumero()
-				+ " Parada final: " + pFinal.getNumero() 
-				+ " Tiempo: " + tiempo 
-				+ " Distancia: " + distancia 
-				+ " Precio: " + precio
-				);
+		System.out.println("Parada inicial: " + pInicial.getNumero() + " Parada final: " + pFinal.getNumero()
+				+ " Tiempo: " + tiempo + " Distancia: " + distancia + " Precio: " + precio);
 		System.out.println("Paradas Intermedias:");
-		
-		for(Nodo p : listaParadas) 
+
+		for (Nodo p : listaParadas)
 			System.out.print(" " + p.getNumero());
-		
+
 		System.out.println("");
 	}
-	
-	public int getCantidadParadas(){
+
+	public int getCantidadParadas() {
 		return listaParadas.size();
 	}
 
@@ -84,26 +76,26 @@ public class Ruta {
 	public double getDistancia() {
 		return distancia;
 	}
-	
-	public ArrayList<Nodo> getParadas(){
+
+	public ArrayList<Nodo> getParadas() {
 		return listaParadas;
 	}
-	
+
 	public Bus getBus() {
 		return bus;
 	}
-	
-	public double getPrecio(){
+
+	public double getPrecio() {
 		return precio;
 	}
-	
+
 	public boolean similar(Ruta r) {
-		if(r.getPInicial().equals(this.pInicial) && r.getPFinal().equals(this.pFinal))
+		if (r.getPInicial().equals(this.pInicial) && r.getPFinal().equals(this.pFinal))
 			return true;
 		else
 			return false;
 	}
-	
+
 //	public void addParadas(ArrayList<Parada> p) {
 //		
 //		listaParadas.addAll(p);
@@ -111,7 +103,7 @@ public class Ruta {
 //		
 //		
 //	}
-	
+
 //	public Ruta menor(Ruta r) {
 //		if(this.similar(r)) {
 //			return (r.getDistancia() > this.distancia)? this: r;
@@ -120,5 +112,5 @@ public class Ruta {
 //			return null;
 //		
 //	}
-	
+
 }

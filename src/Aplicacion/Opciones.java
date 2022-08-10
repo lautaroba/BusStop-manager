@@ -20,7 +20,7 @@ public class Opciones extends JTabbedPane{
 		LineaInterfaz l = new LineaInterfaz(Mapa, listaParadas, listaConexiones, g);
 		this.add(l, "Lineas");
 		
-		Incidentes i = new Incidentes(Mapa, listaParadas, listaConexiones);
+		Incidentes i = new Incidentes(Mapa, listaParadas, listaConexiones, g);
 		this.add(i, "Incidentes");
 		
 	}

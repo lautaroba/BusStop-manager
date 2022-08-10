@@ -2,7 +2,6 @@ package Aplicacion;
 
 import java.awt.Color;
 import java.util.ArrayList;
-
 import Dominio.Bus;
 import Dominio.Economica;
 import Dominio.Gestor;
@@ -14,12 +13,12 @@ import Dominio.TipoServicio;
 public class App {
 
 	public static void main(String[] args) {
-		
+
 		ArrayList<Punto> listaParadas = new ArrayList<Punto>();
 		ArrayList<Flecha> listaConexiones = new ArrayList<Flecha>();
 		Gestor g = new Gestor();
 		// Declaración puntos precargados
-		
+
 		Punto p1 = new Punto(100, 200, "Piedras", 1);
 		listaParadas.add(p1);
 		Punto p2 = new Punto(300, 200, "Lavalle", 2);
@@ -42,7 +41,7 @@ public class App {
 		listaParadas.add(p10);
 		Punto p11 = new Punto(600, 400, "General Risso", 11);
 		listaParadas.add(p11);
-		
+
 		Nodo n1 = new Nodo(1, "Piedras");
 		Nodo n2 = new Nodo(2, "Lavalle");
 		Nodo n3 = new Nodo(3, "Roberto Godoy");
@@ -53,8 +52,8 @@ public class App {
 		Nodo n8 = new Nodo(8, "Boulevard Galves");
 		Nodo n9 = new Nodo(9, "Avenida Almirante Brown");
 		Nodo n10 = new Nodo(10, "Avenida Alejandro Alem");
-		Nodo n11 = new Nodo(11, "General Risso"); 
-		
+		Nodo n11 = new Nodo(11, "General Risso");
+
 		g.agregarParada(p1.getNodo());
 		g.agregarParada(p2.getNodo());
 		g.agregarParada(p3.getNodo());
@@ -67,8 +66,8 @@ public class App {
 		g.agregarParada(p10.getNodo());
 		g.agregarParada(p11.getNodo());
 		// Declaración líneas precargadas
-		
-		Flecha f1 = new Flecha(p1, p2, 50); 
+
+		Flecha f1 = new Flecha(p1, p2, 50);
 		listaConexiones.add(f1);
 		Flecha f2 = new Flecha(p1, p6, 70);
 		listaConexiones.add(f2);
@@ -81,7 +80,7 @@ public class App {
 		Flecha f6 = new Flecha(p3, p4, 30);
 		listaConexiones.add(f6);
 		Flecha f7 = new Flecha(p4, p6, 30);
-		listaConexiones.add(f7); 
+		listaConexiones.add(f7);
 		Flecha f8 = new Flecha(p4, p10, 50);
 		listaConexiones.add(f8);
 		Flecha f9 = new Flecha(p5, p11, 40);
@@ -104,40 +103,40 @@ public class App {
 		listaConexiones.add(f17);
 		Flecha f18 = new Flecha(p11, p1, 350);
 		listaConexiones.add(f18);
-		
-		g.agregarCamino(p1.getNodo(),p2.getNodo(),50);
-		g.agregarCamino(p1.getNodo(),p6.getNodo(),70);
-		g.agregarCamino(p1.getNodo(),p7.getNodo(),40);
-		g.agregarCamino(p2.getNodo(),p3.getNodo(),100);
-		g.agregarCamino(p2.getNodo(),p5.getNodo(),200);
-		g.agregarCamino(p3.getNodo(),p4.getNodo(),30);
-		g.agregarCamino(p4.getNodo(),p6.getNodo(),30);
-		g.agregarCamino(p4.getNodo(),p10.getNodo(),50);
-		g.agregarCamino(p5.getNodo(),p11.getNodo(),40);
-		g.agregarCamino(p6.getNodo(),p7.getNodo(),50);
-		g.agregarCamino(p6.getNodo(),p9.getNodo(),40);
-		g.agregarCamino(p7.getNodo(),p8.getNodo(),40);
-		g.agregarCamino(p8.getNodo(),p1.getNodo(),120);
-		g.agregarCamino(p8.getNodo(),p9.getNodo(),50);
-		g.agregarCamino(p9.getNodo(),p11.getNodo(),100);
-		g.agregarCamino(p9.getNodo(),p3.getNodo(),250);
-		g.agregarCamino(p10.getNodo(),p9.getNodo(),40);
-		g.agregarCamino(p11.getNodo(),p1.getNodo(),350);
-		
+
+		g.agregarCamino(p1.getNodo(), p2.getNodo(), 50);
+		g.agregarCamino(p1.getNodo(), p6.getNodo(), 70);
+		g.agregarCamino(p1.getNodo(), p7.getNodo(), 40);
+		g.agregarCamino(p2.getNodo(), p3.getNodo(), 100);
+		g.agregarCamino(p2.getNodo(), p5.getNodo(), 200);
+		g.agregarCamino(p3.getNodo(), p4.getNodo(), 30);
+		g.agregarCamino(p4.getNodo(), p6.getNodo(), 30);
+		g.agregarCamino(p4.getNodo(), p10.getNodo(), 50);
+		g.agregarCamino(p5.getNodo(), p11.getNodo(), 40);
+		g.agregarCamino(p6.getNodo(), p7.getNodo(), 50);
+		g.agregarCamino(p6.getNodo(), p9.getNodo(), 40);
+		g.agregarCamino(p7.getNodo(), p8.getNodo(), 40);
+		g.agregarCamino(p8.getNodo(), p1.getNodo(), 120);
+		g.agregarCamino(p8.getNodo(), p9.getNodo(), 50);
+		g.agregarCamino(p9.getNodo(), p11.getNodo(), 100);
+		g.agregarCamino(p9.getNodo(), p3.getNodo(), 250);
+		g.agregarCamino(p10.getNodo(), p9.getNodo(), 40);
+		g.agregarCamino(p11.getNodo(), p1.getNodo(), 350);
+
 		Linea sup = new Superior("a", Color.RED, 50, TipoServicio.AirConditioner, 100);
 		Linea eco = new Economica("b", Color.BLUE, 100, 0.3, 2);
-	
-		sup.setBuses(new Bus(p1.getNodo(), p5.getNodo(), 10));
+
+		sup.setBuses(new Bus(p1.getNodo(), p5.getNodo(), 1));
 		eco.setBuses(new Bus(p5.getNodo(), p11.getNodo(), 2));
 		eco.setBuses(new Bus(p1.getNodo(), p11.getNodo(), 3));
-		
+
 		g.agregarLinea(sup);
 		g.agregarLinea(eco);
-		
-		//for(Punto p : listaParadas) System.out.println("componente X: "+p.getX()+" componente Y: "+p.getY());
+
+		// for(Punto p : listaParadas) System.out.println("componente X: "+p.getX()+"
+		// componente Y: "+p.getY());
 		new Programa("Trabajo Practico", listaParadas, listaConexiones, g);
-		
-		
+
 	}
 
 }
