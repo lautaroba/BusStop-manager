@@ -11,15 +11,14 @@ public class Gestor {
 
 	private ArrayList<Linea> listaLineas;
 	private ArrayList<Calle> listaCaminos;
-	private ArrayList<Nodo> listaParadas; // nodos estas serian esquinas
+	private ArrayList<Nodo> listaNodos; // estas serian esquinas
 	private ArrayList<Incidente> listaIncidentes;
-
 	private ArrayList<Ruta> aristas;
 
 	public Gestor() {
 		this.listaLineas = new ArrayList<Linea>();
 		this.listaCaminos = new ArrayList<Calle>();
-		this.listaParadas = new ArrayList<Nodo>();
+		this.listaNodos = new ArrayList<Nodo>();
 		this.listaIncidentes = new ArrayList<Incidente>();
 		this.aristas = new ArrayList<Ruta>();
 	}
@@ -41,7 +40,7 @@ public class Gestor {
 	}
 
 	public void agregarParada(Nodo p) {
-		this.listaParadas.add(p);
+		this.listaNodos.add(p);
 	}
 
 	public Calle agregarCamino(Nodo p1, Nodo p2, double longitud) {
@@ -50,27 +49,21 @@ public class Gestor {
 		return aux;
 	}
 
-//	public void agregarCamino(Nodo p1, Nodo p2, double longitud) {
-//		this.listaCaminos.add(new Calle(p1, p2, longitud));
-//	}
-
 	public void agregarIncidente(LocalDate inicio, LocalDate fin, String d, Nodo p) {
 
 		try {
 			this.listaIncidentes.add(new Incidente(inicio, fin, d, p));
 		} catch (FechaIncidenteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		if (inicio.equals(java.time.LocalDate.now())) {
-
-			for (Nodo j : listaParadas) {
-				if (j.equals(p))
-					j.setEstado(false);
-			}
-			calcularParadas(p);
+		// if (inicio.equals(java.time.LocalDate.now())) {
+		for (Nodo j : listaNodos) {
+			if (j.equals(p))
+				j.setEstado(false);
 		}
+		calcularParadas(p);
+		// }
 	}
 
 	/*
@@ -91,7 +84,7 @@ public class Gestor {
 	public void terminarIncidente(Incidente i) {
 		Nodo p;
 		p = i.getParada();
-		for (Nodo j : listaParadas) {
+		for (Nodo j : listaNodos) {
 			if (j.equals(p))
 				j.setEstado(true);
 			;
@@ -113,7 +106,6 @@ public class Gestor {
 			if (c.getInicial().equals(p1) && c.getFin().equals(p2))
 				return c.getLongitud();
 		}
-		// AGREGAR Q SI NO EXISTE RETORNE UNA EXEPCION
 		return 0;
 	}
 
@@ -214,15 +206,9 @@ public class Gestor {
 
 		ArrayList<List<Ruta>> resultado = new ArrayList<List<Ruta>>();
 		List<Ruta> marcados = new ArrayList<Ruta>();
-//		marcados.add(p1);
 		shortestPathAux(p1, p2, marcados, resultado);
 
 		return resultado;
-
-//		for(Ruta c : aristas) {
-//			c.Imprimir();
-//		}
-//		System.out.println("nodos = " + nodos.size() + " aristas = " + aristas.size());
 	}
 
 	/*
@@ -259,10 +245,8 @@ public class Gestor {
 		ArrayList<Ruta> aux2 = new ArrayList<Ruta>();
 
 		for (List<Ruta> a : this.todasLasRutasEntreDosParadas(p1, p2)) {
-
 			for (Ruta r : a)
 				suma += r.getDistancia();
-
 			if (suma < bandera) {
 				aux2 = (ArrayList<Ruta>) a;
 				bandera = suma;
@@ -279,10 +263,8 @@ public class Gestor {
 		ArrayList<Ruta> aux2 = new ArrayList<Ruta>();
 
 		for (List<Ruta> a : this.todasLasRutasEntreDosParadas(p1, p2)) {
-
 			for (Ruta r : a)
 				suma += r.getTiempo();
-
 			if (suma < bandera) {
 				aux2 = (ArrayList<Ruta>) a;
 				bandera = suma;
@@ -301,10 +283,8 @@ public class Gestor {
 		ArrayList<Ruta> aux2 = new ArrayList<Ruta>();
 
 		for (List<Ruta> a : this.todasLasRutasEntreDosParadas(p1, p2)) {
-
 			for (Ruta r : a)
 				suma += r.getPrecio();
-
 			if (suma < bandera) {
 				aux2 = (ArrayList<Ruta>) a;
 				bandera = suma;
@@ -316,9 +296,8 @@ public class Gestor {
 		return aux2;
 	}
 
-	public Bus busQueCoincide(int n) {
-
-		return listaLineas.stream().flatMap(l -> l.getBuses().stream()).filter(b -> b.getNumero() == n).findAny().get();
+	public Bus busQueCoincide(int n, Linea l) {
+		return l.getBuses().stream().filter(b -> b.getNumero() == n).findFirst().get();
 
 	}
 

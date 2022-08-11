@@ -11,17 +11,14 @@ public class Grafo extends JPanel {
 
 	private ArrayList<Punto> listaParadas;
 	private ArrayList<Flecha> listaConexiones;
-
 	static int ind = 0;
 
-	// private ArrayList<Camino> listaC;
 	public Grafo(Graphics g, ArrayList<Punto> listaParadas, ArrayList<Flecha> listaConexiones) {
 		this.setVisible(true);
 		this.setBackground(Color.decode("#eaebe8"));
 		this.setBounds(10, 10, 500, 500);
 		this.listaParadas = listaParadas;
 		this.listaConexiones = listaConexiones;
-		// this.dibujarParadas(g);
 	}
 
 	void dibujarParadas(Graphics g1, ArrayList<Punto> listaNuevaParadas, ArrayList<Flecha> listaNuevaConexiones) {
@@ -43,7 +40,7 @@ public class Grafo extends JPanel {
 		g2.drawString(String.valueOf("Ciudad de Santa Fe"), 300, 50);
 		this.revalidate();
 
-	} // FUNCION PARA DIBUJAR PUNTOS PRECARGADOS
+	}
 
 	public ArrayList<Punto> getListaParadas() {
 		return listaParadas;
@@ -54,13 +51,12 @@ public class Grafo extends JPanel {
 	}
 
 	void pintarFlecha(Graphics g1, Flecha f, Color var) {
-		// super.paintComponent(g1);
 
 		double x1 = f.getPuntoInicio().getX() + 5;
 		double y1 = f.getPuntoInicio().getY() + 5;
 		double x2 = f.getPuntoFinal().getX() + 5;
 		double y2 = f.getPuntoFinal().getY() + 5;
-		// Graphics2D ga = (Graphics2D) g1;
+
 		g1.setColor(var);
 		((Graphics2D) g1).setStroke(new BasicStroke(2));
 		g1.drawLine((int) x1, (int) y1, (int) x2, (int) y2);

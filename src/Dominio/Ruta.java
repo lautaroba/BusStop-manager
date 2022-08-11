@@ -21,10 +21,8 @@ public class Ruta {
 		this.tiempo = t;
 		this.bus = b;
 		this.precio = pr;
-		// modificar
 	}
 
-	// eseria un camino
 	public Ruta(Nodo i, Nodo f, double d, List<Nodo> p) {
 		super();
 		this.distancia = d;
@@ -32,7 +30,6 @@ public class Ruta {
 		this.pFinal = f;
 		this.listaParadas = (ArrayList<Nodo>) p;
 		this.tiempo = 0;
-		// modificar
 	}
 
 	public void Imprimir() {
@@ -95,22 +92,5 @@ public class Ruta {
 		else
 			return false;
 	}
-
-//	public void addParadas(ArrayList<Parada> p) {
-//		
-//		listaParadas.addAll(p);
-//		
-//		
-//		
-//	}
-
-//	public Ruta menor(Ruta r) {
-//		if(this.similar(r)) {
-//			return (r.getDistancia() > this.distancia)? this: r;
-//		}
-//		else
-//			return null;
-//		
-//	}
 
 }

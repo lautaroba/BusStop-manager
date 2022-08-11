@@ -21,8 +21,7 @@ public class Incidente implements Comparable<Incidente> {
 		if (fin != null) {
 			if (inicio.isAfter(fin))
 				throw new FechaIncidenteException("La fecha de inicio debe ser anterior a la fecha de fin");
-		} else if (inicio.isAfter(LocalDate.now()))
-			throw new FechaIncidenteException("La fecha de inicio debe ser anterior a la fecha de fin");
+		}
 		this.inicio = inicio;
 		this.fin = fin;
 		this.descripcion = d;

@@ -206,7 +206,6 @@ public class LineaInterfaz extends JPanel {
 	private void ModificarLinea(JButton b) {
 
 		b.addActionListener(e -> {
-
 			JFrame Temp = new JFrame("Modificar linea");
 			Temp.setVisible(true);
 			Temp.setResizable(false);
@@ -250,7 +249,6 @@ public class LineaInterfaz extends JPanel {
 	private void EliminarLinea(JButton b) {
 
 		b.addActionListener(e -> {
-
 			JFrame Temp = new JFrame("Eliminar linea");
 			Temp.setVisible(true);
 			Temp.setResizable(false);
@@ -274,7 +272,6 @@ public class LineaInterfaz extends JPanel {
 					lineaSeleccionada = null;
 					b3.setEnabled(false);
 					b4.setEnabled(false);
-					// System.out.println("ashee " + g.getListaLineas().size());
 					Temp.dispose();
 				}
 			});
@@ -392,14 +389,13 @@ public class LineaInterfaz extends JPanel {
 
 					lineaSeleccionada.setBuses(
 							new Bus(puntoInicial.getNodo(), puntoFinal.getNodo(), Integer.parseInt(numBus.getText())));
-					b6.setEnabled(true); // falta desactivar buscar dsp de eliminar y modificar asheeee
+					b6.setEnabled(true);
 					Temp.dispose();
 				}
 			});
 
 			Cancelar.addActionListener(i -> {
 				if (Cancelar.isEnabled()) {
-					// modificar parada
 					Temp.dispose();
 				}
 			});
@@ -435,7 +431,6 @@ public class LineaInterfaz extends JPanel {
 			Temporal.add(Cancelar);
 			JButton Aceptar = new JButton("Aceptar");
 			Temporal.add(Aceptar);
-			// FALTA CAPTURAR EL TEXTO
 			Aceptar.addActionListener(i -> {
 				if (Aceptar.isEnabled()) {
 					if (busSeleccionado != null) {
@@ -450,7 +445,7 @@ public class LineaInterfaz extends JPanel {
 						busSeleccionado.modificarBus(puntoInicial.getNodo(), puntoFinal.getNodo(),
 								Integer.parseInt(numNuevoBus.getText()));
 
-					} // AGREGAR MENSAJE DE ERROR DE QUE NO HAY BUS SELECCIONADO
+					}
 					Temp.dispose();
 				}
 			});
@@ -490,6 +485,7 @@ public class LineaInterfaz extends JPanel {
 				if (Aceptar.isEnabled()) {
 					lineaSeleccionada.eliminarBus(busSeleccionado);
 					busSeleccionado = null;
+					b.setEnabled(false);
 					b10.setEnabled(false);
 					b8.setEnabled(false);
 					Temp.dispose();
@@ -508,7 +504,6 @@ public class LineaInterfaz extends JPanel {
 	private void BuscarBus(JButton b) {
 
 		b.addActionListener(e -> {
-
 			JFrame Temp = new JFrame("Buscar bus");
 			Temp.setVisible(true);
 			Temp.setResizable(false);
@@ -530,7 +525,7 @@ public class LineaInterfaz extends JPanel {
 
 			Aceptar.addActionListener(i -> {
 				if (Aceptar.isEnabled()) {
-					Bus aux = g.busQueCoincide(Integer.parseInt(numBus.getText()));
+					Bus aux = g.busQueCoincide(Integer.parseInt(numBus.getText()), lineaSeleccionada);
 
 					if (aux != null) {
 						b6.setEnabled(true);
@@ -588,7 +583,6 @@ public class LineaInterfaz extends JPanel {
 	private void trayectoDeUnBus(JButton b) {
 
 		b.addActionListener(e -> {
-//			System.out.println("la linea es : " + lineaSeleccionada.getNombre());
 			for (Ruta r : busSeleccionado.getRutas(g)) {
 				for (Flecha f : listaConexiones) {
 					ArrayList<Nodo> p = r.getParadas();
@@ -615,7 +609,7 @@ public class LineaInterfaz extends JPanel {
 
 			lineaSeleccionada = null;
 			busSeleccionado = null;
-
+			
 			b3.setEnabled(false);
 			b4.setEnabled(false);
 			b5.setEnabled(false);

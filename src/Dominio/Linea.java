@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 public abstract class Linea {
 
 	protected ArrayList<Bus> buses;
-	protected Color color; // Posible modificación en un futuro
+	protected Color color; 
 	protected String nombre;
 	protected int capacidad;
 	protected int velocidad;
@@ -28,11 +28,15 @@ public abstract class Linea {
 	public Color getColor() {
 		return color;
 	}
-
+	
 	public int getCapacidad() {
 		return capacidad;
 	}
-
+	
+	public void cargarPasajero() {
+		this.capacidad--;
+	}
+	
 	public int getVelocidad() {
 		return velocidad;
 	}

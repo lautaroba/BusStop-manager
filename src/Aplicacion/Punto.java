@@ -13,10 +13,8 @@ public class Punto extends Ellipse2D.Double {
 	private int numeroParada;
 	private Nodo n;
 	private Color color;
-	// private int id;
 
 	public Punto(int x, int y) {
-		// this.id = contador;
 		this.x = x;
 		this.y = y;
 		this.height = 15;
@@ -26,7 +24,6 @@ public class Punto extends Ellipse2D.Double {
 	}
 
 	public Punto(int x, int y, String nombre, int numero) {
-		// this.id = contador;
 		this.setColor(Color.GRAY);
 		this.x = x;
 		this.y = y;

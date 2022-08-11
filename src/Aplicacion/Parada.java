@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import Dominio.Bus;
 import Dominio.Gestor;
 import Dominio.Linea;
 import Dominio.Nodo;
@@ -22,7 +23,8 @@ public class Parada extends JPanel {
 	private ArrayList<Flecha> listaConexiones;
 	private Punto paradaInicial;
 	private Punto paradaFinal;
-
+	private ArrayList<Ruta> viajeSeleccionado;
+	
 	public Parada(Mapa m, ArrayList<Punto> listaParadas, ArrayList<Flecha> listaConexiones, Gestor gestor) {
 
 		this.mapa = m;
@@ -79,6 +81,7 @@ public class Parada extends JPanel {
 				rutaMasCorta(b5);
 				rutaMasRapida(b6);
 				rutaMasBarata(b7);
+				comprarPasaje(b8);
 				limpiarPrograma(b9);
 			}
 		});
@@ -166,7 +169,7 @@ public class Parada extends JPanel {
 					for (Punto p : listaParadas) {
 						if (nomParada.getText().equalsIgnoreCase(p.getNombreParada())
 								|| Integer.parseInt(numParada.getText()) == p.getNumeroParada()
-										&& p.getNodo().esParada()) {
+										&& p.getNodo().esParada() && p.getNodo().getEstado()) {
 							if (paradaInicial == null) {
 								paradaInicial = p;
 								p.setColor(Color.YELLOW);
@@ -279,7 +282,6 @@ public class Parada extends JPanel {
 			Temporal.add(Cancelar);
 			JButton Aceptar = new JButton("Aceptar");
 			Temporal.add(Aceptar);
-			// FALTA CAPTURAR EL TEXTO
 			Aceptar.addActionListener(i -> {
 				if (Aceptar.isEnabled()) {
 					paradaInicial.getNodo().setCalle(nomParada.getText());
@@ -304,7 +306,7 @@ public class Parada extends JPanel {
 
 			ArrayList<Ruta> a;
 			a = g.rutaMasRapida(paradaInicial.getNodo(), paradaFinal.getNodo());
-
+			viajeSeleccionado = a;
 			for (Ruta r : a) {
 				ArrayList<Nodo> p = r.getParadas();
 				if (!p.isEmpty()) {
@@ -323,16 +325,19 @@ public class Parada extends JPanel {
 				}
 			}
 			mapa.dibujarGrafo(listaParadas, listaConexiones);
+			if(viajeSeleccionado != null)
+				b8.setEnabled(true);
+			else
+				b8.setEnabled(false);
 		});
 	}
 
 	private void rutaMasCorta(JButton b) {
 
 		b.addActionListener(e -> {
-
 			ArrayList<Ruta> a;
 			a = g.rutaMasCorta(paradaInicial.getNodo(), paradaFinal.getNodo());
-
+			viajeSeleccionado = a;
 			for (Ruta r : a) {
 				ArrayList<Nodo> p = r.getParadas();
 				if (!p.isEmpty()) {
@@ -351,16 +356,19 @@ public class Parada extends JPanel {
 				}
 			}
 			mapa.dibujarGrafo(listaParadas, listaConexiones);
+			if(viajeSeleccionado != null)
+				b8.setEnabled(true);
+			else
+				b8.setEnabled(false);
 		});
 	}
 
 	private void rutaMasBarata(JButton b) {
 
 		b.addActionListener(e -> {
-
 			ArrayList<Ruta> a;
 			a = g.rutaMasBarata(paradaInicial.getNodo(), paradaFinal.getNodo());
-
+			viajeSeleccionado = a;
 			for (Ruta r : a) {
 				ArrayList<Nodo> p = r.getParadas();
 				if (!p.isEmpty()) {
@@ -379,9 +387,70 @@ public class Parada extends JPanel {
 				}
 			}
 			mapa.dibujarGrafo(listaParadas, listaConexiones);
+			if(viajeSeleccionado != null)
+				b8.setEnabled(true);
+			else
+				b8.setEnabled(false);
 		});
 	}
 
+	private void comprarPasaje(JButton b) {
+
+		b.addActionListener(e -> {
+			
+			JFrame Temp = new JFrame("Comprar Pasaje");
+			Temp.setVisible(true);
+			Temp.setResizable(false);
+			Temp.setLocationRelativeTo(null);
+			JPanel Temporal = new JPanel();
+			Temp.add(Temporal);
+			Temporal.setVisible(true);
+			Temporal.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+			Temporal.setLayout(new GridLayout(7, 1, 10, 10));
+			
+			double costoTotal = 0;
+			double distanciaTotal = 0;
+			double duracionTotal = 0;
+			ArrayList<Bus> buses = new ArrayList<Bus>();
+			
+			for (Ruta r : viajeSeleccionado) {
+				costoTotal += r.getPrecio();
+				distanciaTotal += r.getDistancia();
+				duracionTotal += r.getTiempo();
+				g.getLinea(r.getBus()).cargarPasajero();
+				if(!buses.contains(r.getBus()))
+					buses.add(r.getBus());
+			}
+			
+			String s = "Buses en el trayecto:";
+			
+			for(Bus bu : buses) {
+				s+= " ";
+				s+=bu.getNumero();
+			}
+			int horas = (int) duracionTotal/60;
+			int minutos = (int) duracionTotal%60;
+			Temporal.add(new JLabel("Parada Inicial: " + paradaInicial.getNumeroParada()));
+			Temporal.add(new JLabel("Parada Final: " + paradaFinal.getNumeroParada()));
+			Temporal.add(new JLabel("Costo total del viaje: $" + costoTotal));
+			if(horas!= 0)
+				Temporal.add(new JLabel("Duracion estimada (HH:MM): " + horas + " : " + minutos));
+			else
+				Temporal.add(new JLabel("Duracion estimada en minutos: " + minutos));
+			Temporal.add(new JLabel("Longitud del viaje: " + distanciaTotal));
+			Temporal.add(new JLabel(s));
+			
+			JButton Aceptar = new JButton("Aceptar");
+			Temporal.add(Aceptar);
+			
+			Aceptar.addActionListener(i -> {
+				if (Aceptar.isEnabled())
+					Temp.dispose();
+			});
+			Temp.pack();
+		});
+	}
+	
 	private void limpiarPrograma(JButton b) {
 
 		b.addActionListener(e -> {
@@ -392,7 +461,7 @@ public class Parada extends JPanel {
 			b6.setEnabled(false);
 			b7.setEnabled(false);
 			b8.setEnabled(false);
-
+			
 			for (Punto p : listaParadas) {
 				if (!p.getNodo().getEstado())
 					p.setColor(Color.RED);
@@ -408,5 +477,4 @@ public class Parada extends JPanel {
 			mapa.dibujarGrafo(listaParadas, listaConexiones);
 		});
 	}
-
 }
